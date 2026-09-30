@@ -4,17 +4,37 @@
   const toggle = document.querySelector('.menu-toggle');
   const toast = document.querySelector('.toast');
 
-  toggle?.addEventListener('click', () => {
+  const closeMobileNav = () => {
+    if (!nav) return;
+    nav.classList.remove('open');
+    toggle?.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle?.addEventListener('click', event => {
+    event.stopPropagation();
     if (!nav) return;
     const open = nav.classList.toggle('open');
     toggle.setAttribute('aria-expanded', String(open));
   });
 
+  nav?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMobileNav);
+  });
+
+  document.addEventListener('click', event => {
+    if (!nav?.classList.contains('open')) return;
+    if (nav.contains(event.target) || toggle?.contains(event.target)) return;
+    closeMobileNav();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) closeMobileNav();
+  });
+
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       if (nav?.classList.contains('open')) {
-        nav.classList.remove('open');
-        toggle?.setAttribute('aria-expanded', 'false');
+        closeMobileNav();
       }
     }
   });
