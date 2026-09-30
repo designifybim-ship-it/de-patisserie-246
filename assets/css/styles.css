@@ -1153,3 +1153,31 @@ dialog.ticket .ticket-actions{grid-template-columns:repeat(3,minmax(0,1fr))!impo
 @media(max-width:640px){
   .roll-preview-stage{height:350px;}
 }
+
+
+/* V35 mobile/tablet navigation fix: keep menu closed until explicitly opened. */
+@media (max-width:860px){
+  .site-nav{
+    display:none!important;
+    position:absolute!important;
+    left:18px!important;
+    right:18px!important;
+    top:calc(100% - 6px)!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    max-width:none!important;
+    margin-top:0!important;
+    padding:14px!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    background:#80172d!important;
+    border-radius:20px!important;
+    box-shadow:var(--shadow)!important;
+    z-index:100!important;
+  }
+  .site-nav.open{display:flex!important;}
+  .site-nav .nav-link{width:100%;text-align:center;}
+}
+@media (max-width:640px){
+  .site-nav{left:13px!important;right:13px!important;}
+}
