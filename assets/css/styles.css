@@ -1181,3 +1181,34 @@ dialog.ticket .ticket-actions{grid-template-columns:repeat(3,minmax(0,1fr))!impo
 @media (max-width:640px){
   .site-nav{left:13px!important;right:13px!important;}
 }
+
+
+/* V36 tablet/mobile navigation final fix */
+@media (max-width:1080px){
+  .menu-toggle{display:flex!important;}
+  .site-nav{
+    display:none!important;
+    position:absolute!important;
+    left:18px!important;
+    right:18px!important;
+    top:calc(100% - 6px)!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    justify-content:flex-start!important;
+    margin-top:0!important;
+    max-width:none!important;
+    padding:14px!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    background:#80172d!important;
+    border-radius:20px!important;
+    box-shadow:var(--shadow)!important;
+    z-index:1000!important;
+  }
+  .site-nav.open{display:flex!important;}
+  .site-nav .nav-link{width:100%!important;text-align:center!important;}
+  .header-actions{z-index:1001!important;}
+}
+@media (max-width:640px){
+  .site-nav{left:13px!important;right:13px!important;}
+}
