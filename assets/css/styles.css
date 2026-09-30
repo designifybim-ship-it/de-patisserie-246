@@ -1212,3 +1212,14 @@ dialog.ticket .ticket-actions{grid-template-columns:repeat(3,minmax(0,1fr))!impo
 @media (max-width:640px){
   .site-nav{left:13px!important;right:13px!important;}
 }
+
+
+/* V37 compact mobile time fields */
+@media (max-width:640px){
+  #requested-time,
+  #requested-time-delivery{
+    width:min(100%,190px)!important;
+    max-width:190px!important;
+    justify-self:start!important;
+  }
+}
