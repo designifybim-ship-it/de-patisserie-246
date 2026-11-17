@@ -755,6 +755,46 @@ html.ig-lock{overflow:hidden}
 .ic-media img{width:100%;height:100%;max-width:none;max-height:none;object-fit:contain}
 .ic-ph img{width:42%;height:auto;max-height:45%}
 .item-grid{align-items:stretch}
+/* ---------- menu cards v3: same style as the cinnamon roll cards ---------- */
+#cakes{--tint:#fcd0d7;--tint-soft:#fff2f5}
+#cheesecakes{--tint:#f7e3c4;--tint-soft:#fff8ee}
+#cupcakes{--tint:#f6d2e6;--tint-soft:#fff3f9}
+#cookies{--tint:#f3d2a8;--tint-soft:#fff2df}
+#treats{--tint:#f6dcc0;--tint-soft:#fff3e6}
+.item-card{border-radius:var(--r-lg);border:1px solid var(--line);box-shadow:var(--shadow-soft);overflow:hidden}
+.item-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+.ic-media,.ic-media.ic-ph{aspect-ratio:1.15;contain:none;overflow:visible;height:auto;padding:0;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 56%,var(--tint,#fcd0d7) 0 43%,transparent 43.5%),radial-gradient(circle at 50% 56%,#fff 0 48%,transparent 48.5%),linear-gradient(180deg,var(--tint-soft,#fff2f5),#fff)}
+.ic-media::after{left:30%;right:30%;bottom:8%;height:6%;background:rgba(91,16,32,.14);filter:blur(8px)}
+.ic-media img{width:78%;height:82%;max-width:none;max-height:none;object-fit:contain;filter:drop-shadow(0 16px 18px rgba(91,16,32,.22));transition:transform .7s cubic-bezier(.3,1.4,.5,1)}
+.item-card:hover .ic-media img{transform:rotate(-5deg) scale(1.06)}
+.ic-ph{gap:6px}
+.ic-ph img{width:34%;height:auto;opacity:.5;filter:none}
+.ic-ph span{padding:0;border:0;background:none;border-radius:0;font-size:.78rem;font-style:italic;font-weight:600;letter-spacing:0;color:var(--muted)}
+.ic-body{padding:6px 22px 22px;gap:8px}
+.ic-top{flex-direction:column;align-items:flex-start;gap:6px}
+.ic-top h3{font-size:1.65rem;line-height:1.05}
+.ic-price{display:inline-flex;align-items:baseline;gap:5px;padding:4px 12px;border-radius:999px;background:var(--pink-100);font-family:var(--display);font-weight:400;font-size:1.3rem;color:var(--pink-500);line-height:1.1}
+.ic-price small{font-family:var(--body);font-size:.78rem;font-weight:700;color:var(--berry)}
+.ic-body p{font-size:.9rem;line-height:1.6}
+/* slim, light button */
+.ic-foot{height:42px;margin-top:6px}
+.ic-foot .ic-add{position:absolute;inset:0;width:100%;height:42px;border-radius:999px;background:#fff;border:1.5px solid var(--pink-300);color:var(--berry);font-family:var(--body);font-weight:600;font-size:.88rem;letter-spacing:.01em;box-shadow:none;--fill:var(--pink-100)}
+.ic-foot .ic-add:hover{border-color:var(--pink-500);filter:none}
+.item-card.has-opts.on .ic-choose{background:#fff;color:var(--berry);border:1.5px solid var(--pink-500)}
+.ic-step{height:42px;padding:2px;border-width:1.5px}
+.ic-step button{width:34px;height:34px;font-size:1.05rem}
+.item-card.mini .ic-top{gap:6px}
+@media (max-width:600px){
+  .ic-body{padding:4px 12px 14px;gap:6px}
+  .ic-top h3{font-size:1.2rem}
+  .ic-price{font-size:1.05rem;padding:3px 9px}
+  .ic-body p{font-size:.8rem}
+  .ic-foot{height:38px}
+  .ic-foot .ic-add{height:38px;font-size:.8rem}
+  .ic-step{height:38px}.ic-step button{width:30px;height:30px}
+  .ic-ph span{font-size:.68rem}
+}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}
