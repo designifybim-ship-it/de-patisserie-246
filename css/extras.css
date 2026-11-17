@@ -875,25 +875,9 @@ canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown
 .review.big p{font-size:1.9rem}
 .review p::before{content:none}
 @media (max-width:600px){.ic-top h3{min-height:2.2em}.review p{font-size:1.25rem}.review.big p{font-size:1.5rem}}
-/* ================= jump list v2: always open ================= */
-.jump-btn{display:none!important}
-.jump{position:fixed;z-index:60;top:calc(var(--hdr,120px) + 24px);transform:none;left:max(16px,calc((100vw - 1180px) / 2 - 196px));width:176px;opacity:0;pointer-events:none;transition:opacity .35s ease}
-.jump.show{opacity:1;pointer-events:auto;transform:none}
-@media (min-width:1100px) and (max-width:1559px){
-  .menu-main .cat-sec .wrap,.menu-main #delivery .wrap,.menu-main #order-form .wrap{padding-left:224px}
-  .menu-main .item-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .jump{left:20px}
-}
-@media (min-width:1100px) and (max-width:1300px){.menu-main .item-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:1099px){
-  .jump{left:0;right:0;width:auto;top:calc(var(--hdr,96px) + 16px);bottom:auto;display:flex;gap:4px;padding:8px 12px;border-radius:0;border:0;border-bottom:1px solid var(--line);background:rgba(255,253,253,.96);box-shadow:0 6px 14px rgba(135,21,44,.06);overflow-x:auto;scrollbar-width:none;transform:translateY(-6px)}
-  .jump::-webkit-scrollbar{display:none}
-  .jump.show{transform:none}
-  .jump-t{display:none}
-  .jump a{flex:none;white-space:nowrap;padding:7px 12px;border-left:0;border-radius:999px;font-size:.84rem}
-  .jump a.on{border-radius:999px;background:var(--pink-100)}
-  .menu-main .cat-sec{scroll-margin-top:170px}
-}
+/* browse menu: the side list sits below the header on very wide screens */
+.jump{top:calc(var(--hdr,120px) + 24px)}
+@media (max-width:1559px){.jump{top:auto}}
 #delivery,#order-form{scroll-margin-top:110px}
 
 /* ================= calmer look (animations kept) ================= */
