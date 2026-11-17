@@ -724,6 +724,32 @@ html.ig-lock{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.hero-float,.hero-cake{animation:none}}
 .hero-title{font-size:clamp(2.7rem,6.2vw,5rem)}
 .hero-title .squiggle{white-space:nowrap}
+/* ---------- buttons v2: text only, colour rises on hover, ripple on tap ---------- */
+.btn i,.btn svg,.nav-cta i,.ic-add i,.os-add i,.tslot i,.of-toggle button i,.tile>i{display:none!important}
+.btn,.nav-cta,.ic-add,.os-add{position:relative;overflow:hidden;isolation:isolate;animation:none!important;transition:transform .18s ease,box-shadow .35s ease,color .35s ease,border-color .35s ease}
+.btn{--fill:var(--berry)}
+.btn-soft,.btn-outline,.btn-white{--fill:var(--pink-100)}
+.btn-whatsapp{--fill:#13733c}
+.nav-cta{--fill:var(--pink-500)}
+.ic-add,.os-add{--fill:var(--berry)}
+.btn::after,.nav-cta::after,.ic-add::after,.os-add::after{content:"";position:absolute;inset:0;left:0;width:auto;z-index:-1;border-radius:inherit;background:var(--fill);transform:translateY(102%);transition:transform .45s cubic-bezier(.6,0,.2,1)}
+.btn:hover,.btn-primary:hover,.btn-soft:hover,.btn-outline:hover,.btn-white:hover,.btn-whatsapp:hover,.nav-cta:hover{transform:translateY(-2px)}
+.btn:hover::after,.nav-cta:hover::after,.ic-add:hover::after,.os-add:not(:disabled):hover::after{transform:translateY(0)}
+.btn-whatsapp:hover{background:#1f9d55}
+.btn:active,.nav-cta:active,.ic-add:active,.os-add:active{transform:scale(.96)!important;transition-duration:.08s}
+.btn:disabled::after,.os-add:disabled::after{display:none}
+.ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:-1;background:rgba(255,255,255,.4);transform:scale(0);animation:ripple .65s ease-out forwards}
+.btn-soft .ripple,.btn-outline .ripple,.btn-white .ripple{background:rgba(230,72,112,.22)}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.btn::after,.nav-cta::after,.ic-add::after,.os-add::after{transition:none}.ripple{display:none}}
+/* home hero v2: four bakes framing the centrepiece cake */
+.hero-cake{width:min(380px,58%)}
+.hero-float.f1{top:1%;left:0;right:auto;bottom:auto;width:31%;--r:-7deg}
+.hero-float.f2{top:2%;right:0;left:auto;bottom:auto;width:27%;--r:7deg}
+.hero-float.f3{bottom:7%;left:-1%;right:auto;top:auto;width:32%;--r:-4deg}
+.hero-float.f4{bottom:5%;right:1%;left:auto;top:auto;width:26%;--r:5deg}
+.hero-art .price-sticker{left:0;right:0;margin-inline:auto;width:max-content;bottom:-2%}
+@media (max-width:600px){.hero-cake{width:56%}.hero-art .price-sticker{left:0;right:0;bottom:-4%}}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}

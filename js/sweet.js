@@ -171,7 +171,13 @@
   }
 
   /* ---------- a little sprinkle pop on main buttons ---------- */
-  document.addEventListener('click', function(e){ var b = e.target.closest('.btn-primary, .nav-cta'); if (b) burstAt(b, 24); });
+  document.addEventListener('pointerdown', function(e){
+    var b = e.target.closest('.btn, .nav-cta, .ic-add, .os-add'); if (!b || b.disabled || reduce) return;
+    var r = b.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2.2, s = document.createElement('span');
+    s.className = 'ripple'; s.style.width = s.style.height = d + 'px';
+    s.style.left = (e.clientX - r.left - d / 2) + 'px'; s.style.top = (e.clientY - r.top - d / 2) + 'px';
+    b.appendChild(s); setTimeout(function(){ s.remove(); }, 700);
+  });
 
   /* ---------- menu data (BBD, priced per roll, boxes of 2, 4 or 6) ---------- */
   var FLAV = {
