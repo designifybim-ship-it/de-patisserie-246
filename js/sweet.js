@@ -419,8 +419,8 @@
   box.innerHTML =
     '<img src="assets/menu/assortment-of-cookies.webp" alt="" class="cookie-pic">' +
     '<div class="cookie-txt"><strong>Not those cookies.</strong>' +
-    '<p>This site only keeps a tiny note on your device so your order doesn\'t disappear if you leave. No tracking, no spying, just crumbs. The good cookies are on the menu, and they\'re chewy.</p>' +
-    '<div class="cookie-btns"><button type="button" class="cookie-ok">Sounds sweet</button><a class="cookie-menu" href="treats.html#cookies">Show me the real cookies</a></div></div>';
+    '<p>We only save your order on this device. The tasty cookies are on the menu.</p>' +
+    '<div class="cookie-btns"><button type="button" class="cookie-ok">Okay</button><a class="cookie-menu" href="treats.html#cookies">See the cookies</a></div></div>';
   function close(){ try { localStorage.setItem('dp-cookie-ok', '1'); } catch (e) {} box.classList.remove('in'); setTimeout(function(){ box.remove(); }, 400); }
   box.querySelector('.cookie-ok').addEventListener('click', close);
   box.querySelector('.cookie-menu').addEventListener('click', close);

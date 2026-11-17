@@ -1004,7 +1004,7 @@ canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown
 }
 .menu-main .item-card .ic-top h3{text-wrap:wrap}
 /* funny cookie notice */
-.cookie-note{position:fixed;z-index:130;left:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(380px,calc(100vw - 36px));display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:start;padding:18px;border-radius:24px;background:#fff;border:1px solid var(--pink-100);box-shadow:0 18px 44px rgba(91,16,32,.18);opacity:0;transform:translateY(24px) rotate(-1deg);transition:opacity .4s ease,transform .5s cubic-bezier(.3,1.5,.5,1)}
+.cookie-note{position:fixed;z-index:130;left:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:min(320px,calc(100vw - 36px));display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:start;padding:18px;border-radius:24px;background:#fff;border:1px solid var(--pink-100);box-shadow:0 18px 44px rgba(91,16,32,.18);opacity:0;transform:translateY(24px) rotate(-1deg);transition:opacity .4s ease,transform .5s cubic-bezier(.3,1.5,.5,1)}
 .cookie-note.in{opacity:1;transform:none}
 .cookie-pic{width:64px;height:64px;object-fit:cover;border-radius:50%;background:#fff3e6;animation:cookieWobble 3.2s ease-in-out infinite}
 @keyframes cookieWobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
