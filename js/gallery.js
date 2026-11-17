@@ -24,14 +24,14 @@
         '<div class="ig-cap"><h3></h3><p></p></div>' +
         '<div class="ig-row"><button class="ig-like" type="button" aria-label="Like"><i class="ph-bold ph-heart"></i></button><span class="ig-count"></span></div>' +
         '<div class="ig-buttons"><a class="btn btn-primary ig-order" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> Ask about this on WhatsApp</a>' +
-        '<a class="btn ig-insta" target="_blank" rel="noopener"><i class="ph-fill ph-instagram-logo"></i> View on Instagram</a></div>' +
+        '</div>' +
       '</div>' +
     '</div>' +
     '<button class="ig-nav ig-next" type="button" aria-label="Next photo"><i class="ph-bold ph-caret-right"></i></button>';
   document.body.appendChild(box);
 
   var img = box.querySelector('.ig-media img'), h = box.querySelector('.ig-cap h3'), p = box.querySelector('.ig-cap p');
-  var like = box.querySelector('.ig-like'), count = box.querySelector('.ig-count'), order = box.querySelector('.ig-order'), insta = box.querySelector('.ig-insta');
+  var like = box.querySelector('.ig-like'), count = box.querySelector('.ig-count'), order = box.querySelector('.ig-order');
   var cur = 0, lastFocus = null, liked = {};
 
   function show(i){
@@ -43,7 +43,6 @@
     like.classList.toggle('on', !!liked[cur]);
     like.innerHTML = liked[cur] ? '<i class="ph-fill ph-heart"></i>' : '<i class="ph-bold ph-heart"></i>';
     order.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent("Hello De' Patisserie, I saw the " + post.t.toLowerCase() + " in your gallery and would like to ask about ordering something similar.");
-    insta.href = post.ig || IG; // set post.ig to a specific Instagram post link to open that post
     var nx = new Image(); nx.src = src((cur + 1) % posts.length);
   }
   function open(i){
