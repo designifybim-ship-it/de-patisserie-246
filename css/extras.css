@@ -681,6 +681,16 @@ html.ig-lock{overflow:hidden}
   .os-name h3{font-size:1.45rem}
   .ic-count{top:8px;left:8px;font-size:.68rem}
 }
+/* plain-text info lines (no tag boxes) */
+.cat-banner .cat-count,.cat-banner .cat-notice{display:inline;padding:0;margin:0;border:0;border-radius:0;background:none;box-shadow:none;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--berry)}
+.cat-banner .cat-notice{color:var(--muted);font-weight:600}
+.cat-banner .cat-notice::before{content:"\2014";margin:0 10px;color:var(--pink-300);font-weight:400}
+.cat-banner .cat-notice i{display:none}
+.ic-meta{display:block;font-size:.8rem;font-style:italic;color:var(--muted);line-height:1.5}
+.ic-meta span,.ic-meta span.flav{display:inline;padding:0;border:0;border-radius:0;background:none;color:inherit;font-size:inherit;font-weight:500}
+.ic-meta span i{display:none}
+.ic-meta span+span::before{content:"\00b7";margin:0 7px;font-style:normal;color:var(--pink-400)}
+@media (max-width:600px){.cat-banner .cat-notice{display:block;margin-top:4px}.cat-banner .cat-notice::before{display:none}.ic-meta{font-size:.74rem}}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}
