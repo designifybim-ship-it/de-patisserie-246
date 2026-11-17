@@ -5,8 +5,11 @@
   var KEY = 'dp-orderbook-v1';
   var STATUSES = [
     ['new', 'To review'], ['approved', 'Approved'], ['deposit', 'Deposit paid'],
-    ['baking', 'Baking'], ['ready', 'Ready'], ['done', 'Completed'], ['cancelled', 'Cancelled']
+    ['baking', 'Baking'], ['ready', 'Ready'], ['done', 'Completed'],
+    ['inquiry', 'Inquiry'], ['hold', 'On hold'], ['declined', 'Declined'], ['cancelled', 'Cancelled']
   ];
+  var PIPE = ['new', 'approved', 'deposit', 'baking', 'ready', 'done'], SIDE = ['inquiry', 'hold', 'declined', 'cancelled'];
+  function closed(o){ return o.status === 'done' || o.status === 'cancelled' || o.status === 'declined'; }
   var ST = {}; STATUSES.forEach(function(s){ ST[s[0]] = s[1]; });
   var UNITS = ['g', 'kg', 'ml', 'L', 'oz', 'lb', 'cup', 'tbsp', 'tsp', 'each'];
   var TO_BASE = { g: ['g', 1], kg: ['g', 1000], oz: ['g', 28.35], lb: ['g', 453.6], ml: ['ml', 1], L: ['ml', 1000], cup: ['ml', 240], tbsp: ['ml', 15], tsp: ['ml', 5], each: ['each', 1] };
@@ -123,6 +126,9 @@
     return L.join('\n');
   }
   function msgDeposit(o){ return 'Hello ' + first(o) + ', your deposit of ' + money(o.paid) + ' has been received. Your order for ' + niceDate(o.date, true) + ' is confirmed. Balance due on ' + (o.method === 'Delivery' ? 'delivery' : 'pickup') + ': ' + money(Math.max(0, balance(o))) + ' BBD. Thank you for choosing De\' Patisserie!'; }
+  function msgInquiry(o){ return 'Hello ' + first(o) + ', thank you for your order request with De\' Patisserie! Before I confirm, could you tell me a little more about '+ (o.items.length ? 'your ' + o.items[0].name : 'your order') + '? For example the flavour, colours or theme, any message on top, and an inspiration photo if you have one. Thank you!'; }
+  function msgHold(o){ return 'Hello ' + first(o) + ', thank you for your order request with De\' Patisserie! I\'m just checking my schedule for ' + niceDate(o.date, true) + ' and will get back to you shortly to confirm. Thank you for your patience.'; }
+  function msgDecline(o){ return 'Hello ' + first(o) + ', thank you so much for thinking of De\' Patisserie. Unfortunately I\'m not able to take this order for ' + niceDate(o.date, true) + ', as my spots are full. I would love to bake for you another time, so please reach out again with a little more notice. Thank you for understanding!'; }
   function msgReady(o){ return 'Hello ' + first(o) + ', your De\' Patisserie order is ready' + (o.method === 'Delivery' ? ' and on its way to you' : ' for pickup') + '! Balance due: ' + money(Math.max(0, balance(o))) + ' BBD. Enjoy every bite!'; }
 
   /* ---------- lock ---------- */
@@ -162,12 +168,12 @@
   $('#tabs').addEventListener('click', function(e){ var b = e.target.closest('[data-tab]'); if (b) go(b.getAttribute('data-tab')); });
   function go(view, id){
     $$('[data-view]').forEach(function(s){ s.hidden = s.getAttribute('data-view') !== view; });
-    $$('#tabs [data-tab]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-tab') === (view === 'detail' ? 'orders' : view)); });
+    $$('#tabs [data-tab]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-tab') === (view === 'detail' ? 'orders' : view === 'invoice' ? 'invoices' : view)); });
     current = id || null;
-    ({ home: viewHome, orders: viewOrders, add: viewAdd, detail: viewDetail, costs: viewCosts, shop: viewShop, settings: viewSettings })[view]();
+    ({ home: viewHome, orders: viewOrders, add: viewAdd, detail: viewDetail, costs: viewCosts, shop: viewShop, settings: viewSettings, invoices: viewInvoices, invoice: viewInvoice })[view]();
     window.scrollTo(0, 0);
   }
-  document.addEventListener('click', function(e){ var o = e.target.closest('[data-open]'); if (o) go('detail', o.getAttribute('data-open')); });
+  document.addEventListener('click', function(e){ var o = e.target.closest('[data-open]'); if (o) go('detail', o.getAttribute('data-open')); var iv = e.target.closest('[data-invoice]'); if (iv) go('invoice', iv.getAttribute('data-invoice')); });
 
   function orderRow(o){
     var p = o.date ? o.date.split('-') : null, d = p ? new Date(+p[0], +p[1] - 1, +p[2]) : null;
@@ -180,7 +186,7 @@
 
   /* ---------- overview ---------- */
   function viewHome(){
-    var t = todayISO(), wk = addDays(t, 7), act = db.orders.filter(function(o){ return o.status !== 'done' && o.status !== 'cancelled'; });
+    var t = todayISO(), wk = addDays(t, 7), act = db.orders.filter(function(o){ return !closed(o); });
     var toReview = act.filter(function(o){ return o.status === 'new'; });
     var awaiting = act.filter(function(o){ return o.status === 'approved'; });
     var week = act.filter(function(o){ return o.date && o.date >= t && o.date <= wk; }).sort(function(a, b){ return (a.date + a.time).localeCompare(b.date + b.time); });
@@ -201,8 +207,8 @@
 
   /* ---------- orders list ---------- */
   function viewOrders(){
-    var F = [['active', 'Active'], ['new', 'To review'], ['approved', 'Approved'], ['deposit', 'Deposit paid'], ['baking', 'Baking'], ['ready', 'Ready'], ['done', 'Completed'], ['cancelled', 'Cancelled'], ['all', 'All']];
-    var list = db.orders.filter(function(o){ return filter === 'all' ? true : filter === 'active' ? (o.status !== 'done' && o.status !== 'cancelled') : o.status === filter; });
+    var F = [['active', 'Active'], ['new', 'To review'], ['inquiry', 'Inquiry'], ['hold', 'On hold'], ['approved', 'Approved'], ['deposit', 'Deposit paid'], ['baking', 'Baking'], ['ready', 'Ready'], ['done', 'Completed'], ['declined', 'Declined'], ['cancelled', 'Cancelled'], ['all', 'All']];
+    var list = db.orders.filter(function(o){ return filter === 'all' ? true : filter === 'active' ? (!closed(o)) : o.status === filter; });
     var q = (viewOrders.q || '').toLowerCase();
     if (q) list = list.filter(function(o){ return (o.name + ' ' + o.phone + ' ' + o.items.map(function(i){ return i.name; }).join(' ')).toLowerCase().indexOf(q) > -1; });
     list.sort(function(a, b){ return ((a.date || '9999') + a.time).localeCompare((b.date || '9999') + b.time); });
@@ -248,8 +254,12 @@
     var opts = '<option value="">Custom item</option>' + Object.keys(cats).map(function(c){ return '<optgroup label="' + esc(c) + '">' + cats[c].map(function(m){ return '<option value="' + m.id + '">' + esc(m.n) + ' (' + money(m.p) + ')</option>'; }).join('') + '</optgroup>'; }).join('');
     var idx = STATUSES.map(function(s){ return s[0]; }).indexOf(o.status);
     var h = '<div class="dhead"><button class="b b-ghost b-sm" data-go="orders">&larr; Orders</button><h2>' + esc(o.name || 'New order') + ' <span class="small muted" style="font-family:Poppins">#' + o.no + '</span></h2>' +
-      (o.phone ? '<a class="b b-wa b-sm" href="' + waLink(o.phone) + '" target="_blank" rel="noopener">Open chat</a>' : '') + '</div>' +
-      '<div class="steps">' + STATUSES.map(function(s, i){ return '<button data-st="' + s[0] + '" class="' + (s[0] === o.status ? 'on' : (i < idx && o.status !== 'cancelled' ? 'past' : '')) + '">' + s[1] + '</button>'; }).join('') + '</div>';
+      '<button class="b b-dark b-sm" data-invoice="' + o.id + '">Invoice</button>' +
+      (o.phone ? '<a class="b b-wa b-sm" href="' + waLink(o.phone) + '" target="_blank" rel="noopener">Open chat</a>' : '') + '</div>';
+    var pi = PIPE.indexOf(o.status);
+    if (o.status === 'new' || o.status === 'inquiry' || o.status === 'hold') h += '<div class="decide"><span>Decide:</span><button class="b b-main b-sm" data-st="approved">Approve</button><button class="b b-sm" data-st="inquiry">Need more info</button><button class="b b-sm" data-st="hold">Put on hold</button><button class="b b-danger b-sm" data-st="declined">Decline</button></div>';
+    h += '<div class="steps">' + PIPE.map(function(k, i){ return '<button data-st="' + k + '" class="' + (k === o.status ? 'on' : (pi > -1 && i < pi ? 'past' : '')) + '">' + ST[k] + '</button>'; }).join('') +
+      '<span class="steps-sep"></span>' + SIDE.map(function(k){ return '<button data-st="' + k + '" class="side' + (k === o.status ? ' on' : '') + '">' + ST[k] + '</button>'; }).join('') + '</div>';
     if (o.date && o.date < addDays(todayISO(), 3) && o.status === 'new') h += '<p class="warn" style="margin-bottom:12px">This is inside 3 days\' notice. Add a rush fee if you\'re taking it.</p>';
     h += '<div class="grid2"><div class="card"><h3>Customer</h3><div class="grid2">' +
       fld('name', 'Name', o.name) + fld('phone', 'WhatsApp number', o.phone, 'tel') + '</div><div class="grid2" style="margin-top:10px">' +
@@ -274,14 +284,14 @@
     var oc = orderCost(o), prof = total(o) - num(o.deliveryFee) - oc.cost;
     h += '<div class="profit"><div><small>Ingredient cost</small><b>' + (oc.known ? money(oc.cost) : '&ndash;') + '</b></div><div class="' + (prof >= 0 ? 'good' : 'bad') + '"><small>Profit</small><b>' + (oc.known ? money(prof) : '&ndash;') + '</b></div><div><small>Margin</small><b>' + (oc.known && total(o) ? Math.round(prof / (total(o) - num(o.deliveryFee) || 1) * 100) + '%' : '&ndash;') + '</b></div></div>' +
       (oc.unknown ? '<p class="small muted" style="margin-top:6px">' + oc.unknown + ' item(s) have no recipe yet, so their cost isn\'t counted. Add them in <a href="#" data-go="costs">Recipes &amp; costs</a>.</p>' : '') + '</div>';
-    var msgs = [['Approve &amp; ask for deposit', msgConfirm(o)], ['Deposit received', msgDeposit(o)], ['Order ready', msgReady(o)]];
+    var msgs = [['Approve &amp; ask for deposit', msgConfirm(o)], ['Deposit received', msgDeposit(o)], ['Order ready', msgReady(o)], ['Need more info', msgInquiry(o)], ['On hold', msgHold(o)], ['Decline', msgDecline(o)]];
     h += '<div class="card"><h3>Messages to send</h3><div class="row" id="msg-tabs" style="margin-bottom:10px">' + msgs.map(function(m, i){ return '<button class="b b-sm' + (i === 0 ? ' b-dark' : '') + '" data-m="' + i + '">' + m[0] + '</button>'; }).join('') + '</div>' +
       '<div class="msgbox" id="msg-text"></div><div class="row" style="margin-top:10px"><button class="b b-main" id="m-copy">Copy message</button>' + (o.phone ? '<a class="b b-wa" id="m-wa" target="_blank" rel="noopener">Send on WhatsApp</a>' : '') + '</div></div>';
     if (o.raw) h += '<details class="card"><summary style="cursor:pointer;font-weight:600;color:var(--berry)">Original WhatsApp message</summary><div class="msgbox" style="margin-top:10px">' + esc(o.raw) + '</div></details>';
     h += '<div class="row" style="margin-top:14px;justify-content:space-between"><button class="b b-danger b-sm" id="del-order">Delete order</button><span class="small muted">Added ' + new Date(o.created).toLocaleString('en-GB') + '</span></div>';
     v.innerHTML = h;
     function setMsg(i){ $('#msg-text').textContent = msgs[i][1]; $$('[data-m]').forEach(function(b){ b.classList.toggle('b-dark', +b.getAttribute('data-m') === i); }); var a = $('#m-wa'); if (a) a.href = waLink(o.phone, msgs[i][1]); setMsg.i = i; }
-    setMsg(o.status === 'deposit' || o.status === 'baking' ? 1 : o.status === 'ready' ? 2 : 0);
+    setMsg(o.status === 'deposit' || o.status === 'baking' ? 1 : o.status === 'ready' ? 2 : o.status === 'inquiry' ? 3 : o.status === 'hold' ? 4 : o.status === 'declined' ? 5 : 0);
     $$('[data-m]', v).forEach(function(b){ b.addEventListener('click', function(){ setMsg(+b.getAttribute('data-m')); }); });
     $('#m-copy').addEventListener('click', function(){ copy($('#msg-text').textContent); });
     $$('[data-st]', v).forEach(function(b){ b.addEventListener('click', function(){ o.status = b.getAttribute('data-st'); if (o.status === 'deposit' && !num(o.paid)) o.paid = depositDue(o); save(); viewDetail(); toast('Marked as ' + ST[o.status]); }); });
@@ -293,6 +303,50 @@
     function confirmDel(){ var b = $('#del-order'); if (b.dataset.sure) return true; b.dataset.sure = '1'; b.textContent = 'Tap again to delete'; setTimeout(function(){ if (b.isConnected) { delete b.dataset.sure; b.textContent = 'Delete order'; } }, 3000); return false; }
   }
   function fld(k, label, val, type){ return '<label class="f">' + label + '<input data-k="' + k + '" type="' + (type || 'text') + '" value="' + esc(val) + '"' + (type === 'tel' ? ' inputmode="tel"' : '') + '></label>'; }
+
+  /* ---------- invoices ---------- */
+  function invNo(o){ if (!o.invoiceNo) { db.invSeq = (db.invSeq || 0) + 1; o.invoiceNo = 'DP-' + String(db.invSeq).padStart(4, '0'); o.invoiceDate = o.invoiceDate || todayISO(); save(); } return o.invoiceNo; }
+  function viewInvoices(){
+    var v = $('[data-view=invoices]'), list = db.orders.slice().sort(function(a, b){ return (b.date || '').localeCompare(a.date || ''); });
+    var h = '<div class="row" style="justify-content:space-between;margin-bottom:10px"><h2 style="margin:0">Invoices</h2><button class="b b-main" id="inv-new">+ New invoice</button></div>' +
+      '<p class="small muted" style="margin-bottom:12px">Pick an order to make its invoice, or start a new one for something that didn\'t come through WhatsApp.</p>';
+    if (!list.length) h += '<p class="empty">No orders yet.</p>';
+    else h += '<div class="olist">' + list.map(function(o){ return '<div class="inv-row"><div><b>' + esc(o.name || 'No name') + '</b> <span class="pill st-' + o.status + '">' + ST[o.status] + '</span><br><span class="small muted">' + (o.invoiceNo ? o.invoiceNo + ' &middot; ' : '') + esc(niceDate(o.date)) + ' &middot; ' + money(total(o)) + '</span></div><button class="b b-sm b-dark" data-invoice="' + o.id + '">' + (o.invoiceNo ? 'Open invoice' : 'Make invoice') + '</button></div>'; }).join('') + '</div>';
+    v.innerHTML = h;
+    $('#inv-new').addEventListener('click', function(){ var o = newOrder(); o.status = 'approved'; addOrder(o); go('detail', o.id); toast('Fill in the customer and items, then tap Invoice'); });
+  }
+  function viewInvoice(){
+    var o = db.orders.filter(function(x){ return x.id === current; })[0], v = $('[data-view=invoice]');
+    if (!o) { v.innerHTML = '<p class="empty">Order not found.</p>'; return; }
+    var no = invNo(o), paid = num(o.paid), tot = total(o), bal = Math.max(0, tot - paid);
+    var stamp = paid >= tot && tot > 0 ? 'PAID' : paid > 0 ? 'DEPOSIT PAID' : 'UNPAID';
+    var rows = o.items.map(function(it){ return '<tr><td>' + esc(it.name) + (it.flavour ? '<small>' + esc(it.flavour) + '</small>' : '') + '</td><td class="r">' + num(it.qty) + '</td><td class="r">' + money(it.price) + '</td><td class="r">' + money(num(it.qty) * num(it.price)) + '</td></tr>'; }).join('');
+    var extra = '';
+    if (num(o.deliveryFee)) extra += '<div><span>Delivery' + (o.parish ? ' (' + esc(o.parish) + ')' : '') + '</span><span>' + money(o.deliveryFee) + '</span></div>';
+    if (num(o.rushFee)) extra += '<div><span>Rush fee</span><span>' + money(o.rushFee) + '</span></div>';
+    if (num(o.discount)) extra += '<div><span>Discount</span><span>&minus;' + money(o.discount) + '</span></div>';
+    v.innerHTML = '<div class="row no-print" style="justify-content:space-between;margin-bottom:12px"><button class="b b-ghost b-sm" data-open="' + o.id + '">&larr; Back to order</button><div class="row"><button class="b" id="inv-copy">Copy as text</button><button class="b b-main" id="inv-print">Save as PDF / Print</button></div></div>' +
+      '<div class="no-print grid2" style="margin-bottom:12px"><label class="f">Invoice date<input type="date" id="inv-date" value="' + esc(o.invoiceDate || todayISO()) + '"></label><label class="f">Note on invoice<input id="inv-note" value="' + esc(o.invoiceNote || '') + '" placeholder="e.g. Thank you for celebrating with us!"></label></div>' +
+      '<article class="invoice" id="invoice"><header class="inv-head"><img src="assets/img/logo.png" alt=""><div class="inv-title"><h1>Invoice</h1><span class="inv-stamp ' + stamp.toLowerCase().replace(/ /g, '-') + '">' + stamp + '</span></div></header>' +
+      '<div class="inv-meta"><div><small>From</small><b>De\' Patisserie</b><span>Cakes &amp; desserts, Barbados</span><span>WhatsApp +1 (246) 264-4609</span><span>@depatisserie246</span></div>' +
+      '<div><small>Bill to</small><b>' + esc(o.name || '') + '</b>' + (o.phone ? '<span>' + esc(o.phone) + '</span>' : '') + (o.method === 'Delivery' && (o.area || o.parish) ? '<span>' + esc([o.area, o.parish].filter(Boolean).join(', ')) + '</span>' : '') + '</div>' +
+      '<div class="inv-nums"><div><small>Invoice no.</small><b>' + no + '</b></div><div><small>Invoice date</small><b>' + esc(niceDate(o.invoiceDate || todayISO())) + '</b></div><div><small>' + (o.method === 'Delivery' ? 'Delivery' : 'Pickup') + '</small><b>' + esc(niceDate(o.date)) + (o.time ? ', ' + esc(o.time) : '') + '</b></div></div></div>' +
+      '<table class="inv-t"><thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Price</th><th class="r">Amount</th></tr></thead><tbody>' + (rows || '<tr><td colspan="4" class="muted">No items yet</td></tr>') + '</tbody></table>' +
+      '<div class="inv-tot"><div><span>Subtotal</span><span>' + money(subtotal(o)) + '</span></div>' + extra +
+      '<div class="big"><span>Total (BBD)</span><span>' + money(tot) + '</span></div><div><span>Paid</span><span>' + money(paid) + '</span></div><div class="due"><span>Balance due</span><span>' + money(bal) + '</span></div></div>' +
+      '<div class="inv-pay"><b>How to pay</b><span>CIBC First Pay: ' + esc(db.settings.firstPay) + '</span><span>Bank transfer or cash also accepted. Please send a screenshot of your payment on WhatsApp.</span>' + (bal > 0 && paid === 0 ? '<span>A ' + db.settings.deposit + '% deposit of ' + money(depositDue(o)) + ' confirms your order.</span>' : '') + '</div>' +
+      (o.invoiceNote ? '<p class="inv-note">' + esc(o.invoiceNote) + '</p>' : '') +
+      '<footer class="inv-foot">Thank you for choosing De\' Patisserie &#9825; Made with love in Barbados</footer></article>';
+    $('#inv-print').addEventListener('click', function(){ window.print(); });
+    $('#inv-date').addEventListener('change', function(e){ o.invoiceDate = e.target.value; save(); viewInvoice(); });
+    $('#inv-note').addEventListener('change', function(e){ o.invoiceNote = e.target.value; save(); viewInvoice(); });
+    $('#inv-copy').addEventListener('click', function(){
+      var L = ["De' Patisserie - Invoice " + no, 'Date: ' + niceDate(o.invoiceDate || todayISO()), 'Bill to: ' + (o.name || ''), ''].concat(itemLines(o));
+      if (num(o.deliveryFee)) L.push('Delivery - ' + money(o.deliveryFee)); if (num(o.rushFee)) L.push('Rush fee - ' + money(o.rushFee)); if (num(o.discount)) L.push('Discount - minus ' + money(o.discount));
+      L.push('', 'Total: ' + money(tot) + ' BBD', 'Paid: ' + money(paid), 'Balance due: ' + money(bal) + ' BBD', '', 'Pay by CIBC First Pay: ' + db.settings.firstPay);
+      copy(L.join('\n'));
+    });
+  }
 
   /* ---------- recipes & costs ---------- */
   function viewCosts(){
