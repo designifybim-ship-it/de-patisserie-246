@@ -6,8 +6,8 @@
 <meta name="description" content="Order De' Patisserie Saturday Treats cinnamon rolls. Build a box of 2, 4 or 6 and send your order on WhatsApp.">
 <title>Saturday Treats | De' Patisserie</title>
 <link rel="icon" type="image/png" href="assets/img/logo.png">
-<link rel="stylesheet" href="css/sweet.css?v=13">
-<link rel="stylesheet" href="css/extras.css?v=13">
+<link rel="stylesheet" href="css/sweet.css?v=15">
+<link rel="stylesheet" href="css/extras.css?v=15">
 <script>document.documentElement.classList.add('anim');setTimeout(function(){if(!window.__sweet)document.documentElement.classList.remove('anim')},2500);</script>
 <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
@@ -23,7 +23,7 @@
       <a class="nav-link" href="about.html">About</a>
       <a class="nav-link" href="gallery.html">Gallery</a>
       <a class="nav-link" href="policies.html">Policies</a>
-      <a class="nav-cta" href="#order"><i class="i-roll"></i> Order</a>
+      <a class="nav-cta" href="treats.html"><i class="ph-fill ph-cake"></i> Order</a>
     </nav>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><i class="ph-bold ph-list"></i></button>
   </div>
@@ -37,13 +37,13 @@
       <div>
         <div class="breadcrumb"><a href="index.html">Home</a><i class="ph-bold ph-caret-right"></i><span>Saturday Treats</span></div>
         <h1>Pick your <span class="gradient-word">favourite.</span></h1>
-        <p class="lede">Choose a box of 2, 4 or 6 rolls, in one flavour or mixed. When you're done, your order opens straight in our WhatsApp chat, ready to send.</p>
+        <p class="lede">Saturday Treats is taking a short break. Have a look at the flavours, then tap <b>Notify me</b> and we'll message you on WhatsApp when the next drop opens.</p>
         <div class="hero-chips">
-          <span class="hero-chip"><i class="ph-fill ph-calendar-heart"></i> Next drop: <span data-drop-date>Saturday</span></span>
+          <span class="hero-chip"><i class="ph-fill ph-calendar-heart"></i> Next drop: to be announced</span>
           <span class="hero-chip"><i class="ph-fill ph-package"></i> Minimum 2 rolls</span>
-          <span class="hero-chip"><i class="ph-fill ph-whatsapp-logo"></i> Order on WhatsApp</span>
+          <span class="hero-chip"><i class="ph-fill ph-bell-ringing"></i> We'll notify you on WhatsApp</span>
         </div>
-        <div class="hero-actions"><a class="btn btn-primary" href="#order"><i class="ph-fill ph-shopping-bag-open"></i> Start my order</a><a class="btn btn-soft" href="#flavours"><i class="i-roll"></i> See flavours</a></div>
+        <div class="hero-actions"><a class="btn btn-whatsapp" href="https://wa.me/12462644609?text=Hello%20De%27%20Patisserie%2C%20please%20let%20me%20know%20when%20Saturday%20Treats%20is%20back." target="_blank" rel="noopener"><i class="ph-fill ph-bell-ringing"></i> Notify me when it's back</a><a class="btn btn-soft" href="#flavours"><i class="i-roll"></i> See flavours</a></div>
       </div>
       <div class="hero-rolls three" aria-hidden="true">
         <img src="assets/img/classic-cinnamon-roll.png" alt="">
@@ -88,11 +88,19 @@
   <section class="section bg-blush" id="order">
     <div class="wrap">
       <div class="head-center reveal" style="margin-bottom:24px">
-        <h2 class="section-title">Let's fill your <span class="gradient-word">box.</span></h2>
-        <p class="section-copy">Three quick steps. At the end, tap the green button and WhatsApp opens with your order already written out. Just press send.</p>
+        <h2 class="section-title">Back <span class="gradient-word">soon.</span></h2>
+        <p class="section-copy">Saturday Treats ordering is paused for now. Tap below and we'll message you on WhatsApp as soon as the next drop is open, so you can be first in line.</p>
+      </div>
+      <div class="paused-card reveal">
+        <img src="assets/img/home-cinnamon-roll-box.png" alt="" loading="lazy">
+        <div>
+          <h3>Want to be first to know?</h3>
+          <p>We'll send you a WhatsApp message when ordering opens again. In the meantime, our custom cakes and treats are still available with advance notice.</p>
+          <div class="paused-actions"><a class="btn btn-whatsapp" href="https://wa.me/12462644609?text=Hello%20De%27%20Patisserie%2C%20please%20let%20me%20know%20when%20Saturday%20Treats%20is%20back." target="_blank" rel="noopener"><i class="ph-fill ph-bell-ringing"></i> Notify me when it's back</a><a class="btn btn-soft" href="treats.html"><i class="ph-fill ph-cake"></i> Order cakes &amp; treats</a></div>
+        </div>
       </div>
 
-      <div class="wizard" id="wizard">
+      <div class="wizard" id="wizard" hidden>
         <div class="progress-meta"><span id="step-label">Step 1 of 3</span><span class="progress-price" id="progress-price">$12.00 BBD total</span></div>
         <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
         <ol class="step-dots" style="grid-template-columns:repeat(3,1fr)">
@@ -221,7 +229,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
-      <div><img class="footer-logo" src="assets/img/logo.png" alt="De' Patisserie" loading="lazy"><p>Saturday Treats is De' Patisserie's weekly cinnamon roll drop. Send your order on WhatsApp and we'll confirm it with you.</p></div>
+      <div><img class="footer-logo" src="assets/img/logo.png" alt="De' Patisserie" loading="lazy"><p>Custom cakes, cheesecakes, cupcakes and cookies, made to order in Barbados. Send your order on WhatsApp and we'll confirm it with you.</p></div>
       <div><h3 class="footer-title">Explore</h3><div class="footer-links"><a href="index.html"><i class="ph-fill ph-house"></i> Home</a><a href="saturday-treats.html"><i class="i-roll"></i> Saturday Treats</a><a href="treats.html"><i class="ph-fill ph-cake"></i> Cakes &amp; Treats</a><a href="about.html"><i class="ph-fill ph-heart"></i> About</a><a href="gallery.html"><i class="ph-fill ph-images"></i> Gallery</a></div></div>
       <div><h3 class="footer-title">Connect</h3><div class="footer-links"><a href="https://wa.me/12462644609" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> +1 (246) 264-4609</a><a href="https://www.instagram.com/depatisserie246/" target="_blank" rel="noopener"><i class="ph-fill ph-instagram-logo"></i> @depatisserie246</a><a href="policies.html"><i class="ph-fill ph-scroll"></i> Policies</a></div></div>
     </div>
@@ -231,7 +239,7 @@
 <button class="to-top" id="to-top" type="button" aria-label="Back to top"><i class="i-roll"></i><small>Back to top</small></button>
 <canvas id="confetti" aria-hidden="true"></canvas>
 <div class="toast" role="status" aria-live="polite"></div>
-<script src="js/pickers.js?v=13"></script>
-<script src="js/sweet.js?v=13"></script>
+<script src="js/pickers.js?v=15"></script>
+<script src="js/sweet.js?v=15"></script>
 </body>
 </html>

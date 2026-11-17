@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="De' Patisserie Saturday Treats. Warm, pillowy cinnamon rolls with cream cheese frosting. Build a box of 2, 4 or 6 and send your order on WhatsApp.">
+<meta name="description" content="De' Patisserie: custom cakes, cheesecakes, cupcakes and cookie cakes, baked from scratch in Barbados. Order on WhatsApp.">
 <title>De' Patisserie | Saturday Treats</title>
 <link rel="icon" type="image/png" href="assets/img/logo.png">
-<link rel="stylesheet" href="css/sweet.css?v=13">
-<link rel="stylesheet" href="css/extras.css?v=13">
+<link rel="stylesheet" href="css/sweet.css?v=15">
+<link rel="stylesheet" href="css/extras.css?v=15">
 <script>document.documentElement.classList.add('anim');setTimeout(function(){if(!window.__sweet)document.documentElement.classList.remove('anim')},2500);</script>
 <script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
@@ -23,7 +23,7 @@
       <a class="nav-link" href="about.html">About</a>
       <a class="nav-link" href="gallery.html">Gallery</a>
       <a class="nav-link" href="policies.html">Policies</a>
-      <a class="nav-cta" href="saturday-treats.html#order"><i class="i-roll"></i> Order</a>
+      <a class="nav-cta" href="treats.html"><i class="ph-fill ph-cake"></i> Order</a>
     </nav>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><i class="ph-bold ph-list"></i></button>
   </div>
@@ -36,25 +36,19 @@
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <h1 class="hero-title">
-          <span class="line">Your cinnamon</span>
-          <span class="line"><span class="squiggle gradient-word">roll drop<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 Q 30 2 56 12 T 108 12 T 160 12 T 212 12 T 264 12 T 296 10" fill="none" stroke="#f8aec0" stroke-width="6" stroke-linecap="round"/></svg></span></span>
-          <span class="line">is back.</span>
+          <span class="line">Sweet moments,</span>
+          <span class="line"><span class="squiggle gradient-word">made by hand<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 Q 30 2 56 12 T 108 12 T 160 12 T 212 12 T 264 12 T 296 10" fill="none" stroke="#f8aec0" stroke-width="6" stroke-linecap="round"/></svg></span></span>
+          <span class="line">with love.</span>
         </h1>
-        <p class="hero-lede">Warm, pillowy cinnamon rolls finished with cream cheese frosting and bold flavours. Choose a box of 2, 4 or 6, all one flavour or mixed.</p>
-        <p class="hero-note"><i class="ph-fill ph-tag"></i> Prices are shown upfront, so you know your total before you send your order.</p>
+        <p class="hero-lede">From dreamy heart cakes and silky cheesecakes to buttercream cupcakes and gooey cookie cakes, every treat is baked from scratch in Barbados and decorated just for you. Pick your favourites, choose your flavours, and we'll take care of the rest.</p>
+        <p class="hero-note"><i class="ph-fill ph-sparkle"></i> Now booking custom orders. Spots are limited each week, so order early.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="saturday-treats.html#order"><i class="ph-fill ph-shopping-bag-open"></i> Build My Box</a>
-          <a class="btn btn-soft" href="#menu"><i class="i-roll"></i> See the menu</a>
+          <a class="btn btn-primary" href="treats.html"><i class="ph-fill ph-cake"></i> Order cakes &amp; treats</a>
+          <a class="btn btn-soft" href="gallery.html"><i class="ph-fill ph-images"></i> See our work</a>
         </div>
-        <div class="countdown" id="countdown">
-          <span class="countdown-label"><span class="dot"></span> <span id="cd-title">Counting down to Saturday Treats &#9825;</span></span>
-          <div class="countdown-grid">
-            <div class="tick"><strong data-cd="d">00</strong><span>Days</span></div>
-            <div class="tick"><strong data-cd="h">00</strong><span>Hours</span></div>
-            <div class="tick"><strong data-cd="m">00</strong><span>Minutes</span></div>
-            <div class="tick"><strong data-cd="s">00</strong><span>Seconds</span></div>
-          </div>
-          <span class="countdown-date" id="countdown-date"></span>
+        <div class="paused">
+          <span class="countdown-label"><span class="dot"></span> Saturday Treats is on a break &#9825;</span>
+          <p>Our cinnamon roll drop is paused for now. <a class="paused-link" href="https://wa.me/12462644609?text=Hello%20De%27%20Patisserie%2C%20please%20let%20me%20know%20when%20Saturday%20Treats%20is%20back." target="_blank" rel="noopener">Tap here to be notified on WhatsApp</a> when it's back.</p>
         </div>
       </div>
       <div class="hero-art">
@@ -62,55 +56,70 @@
         <span class="floaty" style="top:6%;left:8%;font-size:1.8rem" aria-hidden="true">&#9829;</span>
         <span class="floaty" style="bottom:18%;right:4%;font-size:1.4rem;animation-delay:1.2s" aria-hidden="true">&#9825;</span>
         <span class="floaty" style="top:44%;left:0;font-size:1.2rem;animation-delay:2.1s;color:var(--berry)" aria-hidden="true">&#10022;</span>
-        <img class="hero-box" src="assets/img/hero-box.webp" width="800" height="518" alt="A box of Sweetheart Classic, Apple Cinnamon and Biscoff Dream cinnamon rolls from De' Patisserie">
-        <a class="new-flav" href="#menu"><img src="assets/img/apple-cinnamon-roll.png" alt=""><span><small>New flavour</small><strong>Apple Cinnamon</strong></span></a>
+        <img class="hero-cake" src="assets/menu/6-inch-heart-cake.webp" alt="A pink heart-shaped birthday cake with vintage piping from De' Patisserie">
+        <img class="hero-float f1" src="assets/menu/8-inch-cheesecake.webp" alt="" aria-hidden="true">
+        <img class="hero-float f2" src="assets/menu/6-inch-heart-oreo-cheesecake.webp" alt="" aria-hidden="true">
+        <img class="hero-float f3" src="assets/menu/assortment-of-cookies.webp" alt="" aria-hidden="true">
+        <img class="hero-float f4" src="assets/menu/3-layer-6-inch-circle-cake.webp" alt="" aria-hidden="true">
+        <img class="hero-float f5" src="assets/menu/cinnamon-croissant.webp" alt="" aria-hidden="true">
         <button class="badge-spin" id="badge" type="button" aria-label="Sprinkle some hearts">
           <svg viewBox="0 0 120 120" aria-hidden="true">
             <defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
             <circle cx="60" cy="60" r="58" fill="#87152c"/>
             <circle cx="60" cy="60" r="52" fill="none" stroke="#f8aec0" stroke-width="1.5" stroke-dasharray="3 5"/>
-            <text font-family="Poppins,sans-serif" font-size="11.5" font-weight="700" letter-spacing="3.2" fill="#fff"><textPath href="#circ">FRESH &#9825; EVERY &#9825; SATURDAY &#9825; </textPath></text>
+            <text font-family="Poppins,sans-serif" font-size="11.5" font-weight="700" letter-spacing="3.2" fill="#fff"><textPath href="#circ">MADE &#9825; FRESH &#9825; WITH LOVE &#9825; </textPath></text>
           </svg>
           <span class="heart">&#9829;</span>
         </button>
-        <div class="price-sticker"><small>Rolls from</small><strong>$6.00</strong><em>Minimum 2 rolls</em></div>
+        <div class="price-sticker"><small>Cakes from</small><strong>$40.00</strong><em>Made to order</em></div>
       </div>
     </div>
   </section>
 
   <div class="ribbon" aria-hidden="true">
     <div class="ribbon-track">
-      <span>Saturday Treats <b>&#9825;</b> Sweetheart Classic <b><i class="i-roll"></i></b> Biscoff Dream <b>&#9825;</b> Apple Cinnamon <b><i class="i-roll"></i></b> Boxes of 2, 4 or 6 <b>&#9825;</b> Mix any flavours <b><i class="i-roll"></i></b> Made with care <b>&#9825;</b></span>
-      <span>Saturday Treats <b>&#9825;</b> Sweetheart Classic <b><i class="i-roll"></i></b> Biscoff Dream <b>&#9825;</b> Apple Cinnamon <b><i class="i-roll"></i></b> Boxes of 2, 4 or 6 <b>&#9825;</b> Mix any flavours <b><i class="i-roll"></i></b> Made with care <b>&#9825;</b></span>
+      <span>Celebration Cakes <b>&#9825;</b> Cheesecakes <b>&#10022;</b> Cupcakes <b>&#9825;</b> Cookie Cakes <b>&#10022;</b> Your colours, your flavours <b>&#9825;</b> Baked from scratch <b>&#10022;</b> Made with love in Barbados <b>&#9825;</b></span>
+      <span>Celebration Cakes <b>&#9825;</b> Cheesecakes <b>&#10022;</b> Cupcakes <b>&#9825;</b> Cookie Cakes <b>&#10022;</b> Your colours, your flavours <b>&#9825;</b> Baked from scratch <b>&#10022;</b> Made with love in Barbados <b>&#9825;</b></span>
     </div>
   </div>
 
   <section class="section bg-white">
     <div class="wrap updates-grid">
       <div class="reveal">
-        <h2 class="section-title">A few quick <span class="gradient-word">sweet updates.</span></h2>
-        <p class="section-copy">Here's what's new for this Saturday's drop, so there are no surprises when you build your box.</p>
+        <h2 class="section-title">A few sweet <span class="gradient-word">updates.</span></h2>
+        <p class="section-copy">Here's what's happening in the De' Patisserie kitchen right now.</p>
       </div>
       <div class="tags">
         <article class="tag reveal pop">
-          <span class="tag-label"><i class="ph-fill ph-sparkle"></i> New flavour</span>
-          <h3>Apple Cinnamon is here</h3>
-          <p>Cinnamon-spiced apple and a caramel drizzle join the Saturday Treats lineup, alongside Classic and Biscoff.</p>
+          <span class="tag-label"><i class="ph-fill ph-cake"></i> Now booking</span>
+          <h3>Custom orders are open</h3>
+          <p>Birthday cakes, cheesecakes, cupcakes and cookie cakes, made in your colours and flavours. Spots are limited each week, so book early.</p>
         </article>
         <article class="tag reveal pop">
-          <span class="tag-label"><i class="ph-fill ph-package"></i> How boxes work</span>
-          <h3>Minimum of 2 rolls</h3>
-          <p>Choose a box of 2, 4 or 6. Keep it to one flavour or mix them however you like.</p>
+          <span class="tag-label"><i class="ph-fill ph-bell-ringing"></i> Saturday Treats</span>
+          <h3>Cinnamon rolls are on a break</h3>
+          <p>Our Saturday drop is paused for now. <a class="paused-link" href="https://wa.me/12462644609?text=Hello%20De%27%20Patisserie%2C%20please%20let%20me%20know%20when%20Saturday%20Treats%20is%20back." target="_blank" rel="noopener">Ask to be notified</a> and we'll message you when it's back.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="section bg-stripes" id="menu">
+  <section class="section bg-stripes" id="more-treats">
     <div class="wrap">
       <div class="head-center reveal">
-        <h2 class="section-title">Your Saturday <span class="gradient-word">cinnamon roll menu.</span></h2>
-        <p class="section-copy">Three flavours this Saturday. Prices are per roll, with box totals shown for 2, 4 and 6.</p>
+        <h2 class="section-title">Made to order, <span class="gradient-word">just for you.</span></h2>
+        <p class="section-copy">Custom cakes, cheesecakes, cupcakes, cookies and little extras, all made to order in your colours and flavours. Tap a category to start your order.</p>
+      </div>
+      <div class="cat-tiles"><a class="cat-tile reveal pop" href="treats.html#cakes"><span class="cat-tile-img"><img src="assets/gallery/g08.webp" alt="" loading="lazy"></span><strong>Celebration Cakes</strong><small>from $40.00</small></a><a class="cat-tile reveal pop" href="treats.html#cheesecakes"><span class="cat-tile-img"><img src="assets/gallery/g17.webp" alt="" loading="lazy"></span><strong>Cheesecakes</strong><small>from $18.00</small></a><a class="cat-tile reveal pop" href="treats.html#cupcakes"><span class="cat-tile-img"><img src="assets/gallery/g09.webp" alt="" loading="lazy"></span><strong>Cupcakes</strong><small>from $1.50</small></a><a class="cat-tile reveal pop" href="treats.html#cookies"><span class="cat-tile-img"><img src="assets/gallery/g11.webp" alt="" loading="lazy"></span><strong>Cookies &amp; Cookie Cakes</strong><small>from $3.00</small></a><a class="cat-tile reveal pop" href="treats.html#treats"><span class="cat-tile-img"><img src="assets/gallery/g22.webp" alt="" loading="lazy"></span><strong>Bakes &amp; Treats</strong><small>from $10.00</small></a><a class="cat-tile reveal pop" href="treats.html#extras"><span class="cat-tile-img"><img src="assets/gallery/g04.webp" alt="" loading="lazy"></span><strong>Make It Extra</strong><small>from $5.00</small></a></div>
+      <div class="ig-more reveal"><a class="btn btn-primary" href="treats.html"><i class="ph-fill ph-cake"></i> See cakes and treats</a></div>
+    </div>
+  </section>
+
+  <section class="section bg-white" id="menu">
+    <div class="wrap">
+      <div class="head-center reveal">
+        <h2 class="section-title">Saturday Treats, <span class="gradient-word">back soon.</span></h2>
+        <p class="section-copy">Our cinnamon rolls are taking a short break. Here's a taste of what to look forward to when the next drop opens. Prices are per roll.</p>
       </div>
       <div class="flavours">
         <article class="flavour reveal" style="--tint:#f6dcc0;--tint-soft:#fff3e6">
@@ -130,7 +139,7 @@
             <div class="prices"><div><span>2 rolls</span><strong>$17.00</strong></div><div><span>4 rolls</span><strong>$34.00</strong></div><div><span>6 rolls</span><strong>$51.00</strong></div></div></div>
         </article>
       </div>
-      <div class="menu-foot reveal"><span class="min-note"><i class="ph-fill ph-info"></i> Minimum order: 2 rolls. All prices in BBD.</span><a class="btn btn-primary" href="saturday-treats.html#order"><i class="ph-fill ph-shopping-bag-open"></i> Build My Box</a></div>
+      <div class="menu-foot reveal"><span class="min-note"><i class="ph-fill ph-info"></i> Minimum order: 2 rolls. All prices in BBD.</span><a class="btn btn-whatsapp" href="https://wa.me/12462644609?text=Hello%20De%27%20Patisserie%2C%20please%20let%20me%20know%20when%20Saturday%20Treats%20is%20back." target="_blank" rel="noopener"><i class="ph-fill ph-bell-ringing"></i> Notify me when it's back</a></div>
     </div>
   </section>
 
@@ -138,7 +147,7 @@
     <div class="wrap">
       <div class="head-center reveal">
         <h2 class="section-title">Can't choose? <span class="gradient-word">Mix it.</span></h2>
-        <p class="section-copy">Pick a box size, then tap flavours to fill it. Each roll is priced on its own, so you see your total as you go.</p>
+        <p class="section-copy">When Saturday Treats returns, you can mix any flavours in a box of 2, 4 or 6. Have a play and see your total as you go.</p>
       </div>
       <div class="mixed-grid">
         <div class="offers">
@@ -161,7 +170,7 @@
             <div class="slots four" id="slots"></div>
             <div class="box-total"><div><span id="box-name">Box of 4</span><strong id="box-detail">2 Classic, 2 Apple</strong></div><div class="sum" id="box-sum">$29.00</div></div>
           </div>
-          <div style="margin-top:22px;display:flex;justify-content:center"><a class="btn btn-primary" href="saturday-treats.html#order"><i class="ph-fill ph-arrow-right"></i> Order a box</a></div>
+          <div style="margin-top:22px;display:flex;justify-content:center"><a class="btn btn-whatsapp" href="https://wa.me/12462644609?text=Hello%20De%27%20Patisserie%2C%20please%20let%20me%20know%20when%20Saturday%20Treats%20is%20back." target="_blank" rel="noopener"><i class="ph-fill ph-bell-ringing"></i> Notify me when it's back</a></div>
         </div>
       </div>
     </div>
@@ -171,26 +180,16 @@
     <div class="wrap">
       <div class="head-center reveal">
         <h2 class="section-title">How to order <span class="gradient-word">Saturday Treats.</span></h2>
-        <p class="section-copy">Choose your box, add your details, then send your order to us on WhatsApp. That's it.</p>
+        <p class="section-copy">Choose your treats, add your details, then send your order to us on WhatsApp. That's it.</p>
       </div>
       <div class="steps" data-observe>
-        <div class="step reveal"><div class="step-icon"><i class="i-roll"></i><span class="step-num">1</span></div><h3>Choose your box</h3><p>Pick a box of 2, 4 or 6, in one flavour or mixed.</p></div>
+        <div class="step reveal"><div class="step-icon"><i class="i-roll"></i><span class="step-num">1</span></div><h3>Choose your treats</h3><p>Pick your cakes, cupcakes or cookies and choose your flavours.</p></div>
         <div class="step reveal"><div class="step-icon"><i class="ph-fill ph-user-circle"></i><span class="step-num">2</span></div><h3>Add your details</h3><p>Choose pickup or delivery and enter your contact details.</p></div>
         <div class="step reveal"><div class="step-icon"><i class="ph-fill ph-whatsapp-logo"></i><span class="step-num">3</span></div><h3>Send on WhatsApp</h3><p>Your order opens in our WhatsApp chat, already written out. Press send and we'll confirm it there.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="section bg-stripes" id="more-treats">
-    <div class="wrap">
-      <div class="head-center reveal">
-        <h2 class="section-title">More than <span class="gradient-word">cinnamon rolls.</span></h2>
-        <p class="section-copy">Custom cakes, cheesecakes, cupcakes, cookies and little extras, all made to order. Pick what you want and send it to us on WhatsApp.</p>
-      </div>
-      <div class="cat-tiles"><a class="cat-tile reveal pop" href="treats.html#cakes"><span class="cat-tile-img"><img src="assets/gallery/g08.webp" alt="" loading="lazy"></span><strong>Celebration Cakes</strong><small>from $40.00</small></a><a class="cat-tile reveal pop" href="treats.html#cheesecakes"><span class="cat-tile-img"><img src="assets/gallery/g17.webp" alt="" loading="lazy"></span><strong>Cheesecakes</strong><small>from $18.00</small></a><a class="cat-tile reveal pop" href="treats.html#cupcakes"><span class="cat-tile-img"><img src="assets/gallery/g09.webp" alt="" loading="lazy"></span><strong>Cupcakes</strong><small>from $1.50</small></a><a class="cat-tile reveal pop" href="treats.html#cookies"><span class="cat-tile-img"><img src="assets/gallery/g11.webp" alt="" loading="lazy"></span><strong>Cookies &amp; Cookie Cakes</strong><small>from $3.00</small></a><a class="cat-tile reveal pop" href="treats.html#treats"><span class="cat-tile-img"><img src="assets/gallery/g22.webp" alt="" loading="lazy"></span><strong>Bakes &amp; Treats</strong><small>from $10.00</small></a><a class="cat-tile reveal pop" href="treats.html#extras"><span class="cat-tile-img"><img src="assets/gallery/g04.webp" alt="" loading="lazy"></span><strong>Make It Extra</strong><small>from $5.00</small></a></div>
-      <div class="ig-more reveal"><a class="btn btn-primary" href="treats.html"><i class="ph-fill ph-cake"></i> See cakes and treats</a></div>
-    </div>
-  </section>
 
   <section class="section bg-blush" id="ig-home">
     <div class="wrap">
@@ -259,10 +258,10 @@
     <img class="float-roll" src="assets/img/apple-cinnamon-roll.png" alt="" style="left:3%;top:20%" loading="lazy">
     <img class="float-roll" src="assets/img/biscoff-cinnamon-roll.png" alt="" style="right:3%;bottom:14%;animation-delay:1.5s" loading="lazy">
     <div class="wrap" style="position:relative">
-      <h2>See you Saturday &#9825;</h2>
-      <p>Build your box, send your order on WhatsApp, and follow along for the next drop.</p>
+      <h2>Made with love &#9825;</h2>
+      <p>Order custom cakes and treats on WhatsApp, and follow along on Instagram for the next Saturday Treats drop.</p>
       <div class="final-actions">
-        <a class="btn btn-white" href="saturday-treats.html#order"><i class="ph-fill ph-shopping-bag-open"></i> Build My Box</a>
+        <a class="btn btn-white" href="treats.html"><i class="ph-fill ph-cake"></i> Order cakes &amp; treats</a>
         <a class="btn btn-white" href="https://www.instagram.com/depatisserie246/" target="_blank" rel="noopener"><i class="ph-fill ph-instagram-logo"></i> @depatisserie246</a>
       </div>
       <p class="phone">WhatsApp +1 (246) 264-4609</p>
@@ -273,7 +272,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
-      <div><img class="footer-logo" src="assets/img/logo.png" alt="De' Patisserie" loading="lazy"><p>Saturday Treats is De' Patisserie's weekly cinnamon roll drop. Send your order on WhatsApp and we'll confirm it with you.</p></div>
+      <div><img class="footer-logo" src="assets/img/logo.png" alt="De' Patisserie" loading="lazy"><p>Custom cakes, cheesecakes, cupcakes and cookies, made to order in Barbados. Send your order on WhatsApp and we'll confirm it with you.</p></div>
       <div><h3 class="footer-title">Explore</h3><div class="footer-links"><a href="index.html"><i class="ph-fill ph-house"></i> Home</a><a href="saturday-treats.html"><i class="i-roll"></i> Saturday Treats</a><a href="treats.html"><i class="ph-fill ph-cake"></i> Cakes &amp; Treats</a><a href="about.html"><i class="ph-fill ph-heart"></i> About</a><a href="gallery.html"><i class="ph-fill ph-images"></i> Gallery</a></div></div>
       <div><h3 class="footer-title">Connect</h3><div class="footer-links"><a href="https://wa.me/12462644609" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> +1 (246) 264-4609</a><a href="https://www.instagram.com/depatisserie246/" target="_blank" rel="noopener"><i class="ph-fill ph-instagram-logo"></i> @depatisserie246</a><a href="policies.html"><i class="ph-fill ph-scroll"></i> Policies</a></div></div>
     </div>
@@ -284,7 +283,7 @@
 <canvas id="confetti" aria-hidden="true"></canvas>
 <div class="toast" role="status" aria-live="polite"></div>
 <script>window.IG_POSTS=[{"t": "Strawberry cheesecake", "d": "Fresh strawberries, a ruby glaze and a sparkly crown for the birthday queen."}, {"t": "Sprinkle party cake", "d": "Vanilla buttercream, rainbow sprinkles and pink piping all the way round."}, {"t": "Pink cupcake gift box", "d": "A dozen pink swirl cupcakes, tied up with a Happy Birthday ribbon."}, {"t": "Heart rosette cake", "d": "Pink rosettes, a gold butterfly and a crown on a heart-shaped cake."}, {"t": "Chocolate lover's cake", "d": "Whipped cream swirls loaded with chocolate pieces and a silver crown."}, {"t": "Saturday Treats box", "d": "A mixed box of cinnamon rolls, frosted and topped by hand."}, {"t": "Pink drip cake", "d": "Strawberry buttercream with a chocolate drip and a sparkly topper."}, {"t": "Pink rosette birthday cake", "d": "Soft pink rosettes and a gold Happy Birthday script."}, {"t": "Blue and white cupcakes", "d": "Royal blue roses and pearl swirls for a classy celebration."}, {"t": "Cookies and cream cheesecake", "d": "Oreo pieces, a gold butterfly and a little crown on top."}, {"t": "Heart cookie cake", "d": "A giant heart-shaped cookie piped with pink and caramel rosettes."}, {"t": "Cinnamon rolls up close", "d": "Cookie crumble, Biscoff and a thick layer of frosting."}, {"t": "Cake and cupcake set", "d": "A pink party cake with matching cupcakes for the whole crew."}, {"t": "Baby's breath cake", "d": "Pink ribbed buttercream crowned with fresh baby's breath."}, {"t": "Lemon pearl cake", "d": "Sunny yellow buttercream finished with pearls and piped borders."}, {"t": "Chocolate drip cake", "d": "Chocolate drip, cream swirls and chocolate bars with a gold topper."}, {"t": "Cherry cheesecake", "d": "Creamy cheesecake under a glossy cherry topping and a crown."}, {"t": "Vintage heart cake", "d": "A red heart cake with vintage piping and Happy Birthday script."}, {"t": "Cherry crown cheesecake", "d": "Cherries piled high with a gold Happy Birthday crown."}, {"t": "Strawberry dream cake", "d": "Strawberries, glaze and a gold topper, made to be photographed."}, {"t": "Cinnamon roll box", "d": "Classic, Biscoff and chocolate drizzle rolls ready for pickup."}, {"t": "Classic cinnamon rolls", "d": "Pillowy rolls under a blanket of cream cheese frosting."}, {"t": "Biscoff and cookie rolls", "d": "Biscoff spread, a Lotus biscuit and cookie crumble."}, {"t": "Fresh out the oven", "d": "Warm rolls, frosted and boxed with love."}];</script>
-<script src="js/gallery.js?v=13"></script>
-<script src="js/sweet.js?v=13"></script>
+<script src="js/gallery.js?v=15"></script>
+<script src="js/sweet.js?v=15"></script>
 </body>
 </html>
