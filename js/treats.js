@@ -329,3 +329,23 @@
 
   syncPills(); render();
 })();
+
+/* ---------- side list: jump to a section ---------- */
+(function(){
+  var nav = document.getElementById('jump'), btn = document.getElementById('jump-btn'); if (!nav) return;
+  var links = nav.querySelectorAll('[data-jump]'), hero = document.querySelector('.page-hero');
+  function setOpen(o){ nav.classList.toggle('open', o); btn.setAttribute('aria-expanded', String(o)); }
+  btn.addEventListener('click', function(){ setOpen(!nav.classList.contains('open')); });
+  links.forEach(function(a){ a.addEventListener('click', function(){ setOpen(false); }); });
+  document.addEventListener('click', function(e){ if (!nav.contains(e.target) && e.target !== btn) setOpen(false); });
+  function onScroll(){
+    var show = !hero || hero.getBoundingClientRect().bottom < 80;
+    nav.classList.toggle('show', show); btn.classList.toggle('show', show);
+    var cur = null, mid = window.innerHeight * 0.35;
+    links.forEach(function(a){ var s = document.getElementById(a.getAttribute('data-jump')); if (s && s.getBoundingClientRect().top <= mid) cur = a; });
+    links.forEach(function(a){ a.classList.toggle('on', a === cur); });
+    var bar = document.getElementById('order-bar'); btn.classList.toggle('lift', !!bar && !bar.hidden);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onScroll); onScroll();
+  setInterval(onScroll, 1000);
+})();
