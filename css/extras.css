@@ -857,6 +857,24 @@ canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown
 .reviews-note{margin-top:18px;text-align:center;font-size:.85rem;color:var(--muted)}
 @media (max-width:860px){.reviews{grid-template-columns:1fr 1fr}.review.big{grid-column:1/-1}}
 @media (max-width:560px){.reviews{grid-template-columns:1fr}.review.big p{font-size:1.4rem}}
+/* cards: everything centred and on the same lines */
+.ic-body{text-align:center;align-items:center}
+.ic-top{align-items:center;width:100%}
+.ic-top h3{min-height:2.1em;display:flex;align-items:flex-end;justify-content:center;text-wrap:balance}
+.ic-meta{width:100%;text-align:center;min-height:1.5em}
+.ic-foot{width:100%}
+.item-card.mini .ic-top h3{min-height:2.1em}
+/* photos sized to match the real cake sizes */
+.item-card.s4 .ic-media img{width:56%;height:60%}
+.item-card.s6 .ic-media img{width:68%;height:72%}
+.item-card.s8 .ic-media img{width:82%;height:86%}
+.item-card.s4 .ic-media::after{left:36%;right:36%}
+/* reviews in the display font, centred */
+.review{text-align:center;justify-items:center;align-content:center}
+.review p,.review.big p{font-family:var(--display);font-weight:400;font-size:1.45rem;line-height:1.25;color:var(--pink-500)}
+.review.big p{font-size:1.9rem}
+.review p::before{content:none}
+@media (max-width:600px){.ic-top h3{min-height:2.2em}.review p{font-size:1.25rem}.review.big p{font-size:1.5rem}}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}
