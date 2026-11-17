@@ -875,6 +875,66 @@ canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown
 .review.big p{font-size:1.9rem}
 .review p::before{content:none}
 @media (max-width:600px){.ic-top h3{min-height:2.2em}.review p{font-size:1.25rem}.review.big p{font-size:1.5rem}}
+/* ================= jump list v2: always open ================= */
+.jump-btn{display:none!important}
+.jump{position:fixed;z-index:60;top:calc(var(--hdr,120px) + 24px);transform:none;left:max(16px,calc((100vw - 1180px) / 2 - 196px));width:176px;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.jump.show{opacity:1;pointer-events:auto;transform:none}
+@media (min-width:1100px) and (max-width:1559px){
+  .menu-main .cat-sec .wrap,.menu-main #delivery .wrap,.menu-main #order-form .wrap{padding-left:224px}
+  .menu-main .item-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .jump{left:20px}
+}
+@media (min-width:1100px) and (max-width:1300px){.menu-main .item-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:1099px){
+  .jump{left:0;right:0;width:auto;top:calc(var(--hdr,96px) + 16px);bottom:auto;display:flex;gap:4px;padding:8px 12px;border-radius:0;border:0;border-bottom:1px solid var(--line);background:rgba(255,253,253,.96);box-shadow:0 6px 14px rgba(135,21,44,.06);overflow-x:auto;scrollbar-width:none;transform:translateY(-6px)}
+  .jump::-webkit-scrollbar{display:none}
+  .jump.show{transform:none}
+  .jump-t{display:none}
+  .jump a{flex:none;white-space:nowrap;padding:7px 12px;border-left:0;border-radius:999px;font-size:.84rem}
+  .jump a.on{border-radius:999px;background:var(--pink-100)}
+  .menu-main .cat-sec{scroll-margin-top:170px}
+}
+#delivery,#order-form{scroll-margin-top:110px}
+
+/* ================= calmer look (animations kept) ================= */
+:root{--shadow:0 14px 34px rgba(135,21,44,.08);--shadow-soft:0 6px 18px rgba(135,21,44,.06)}
+.bg-stripes,.bg-plaid{background:#fff8fa!important;background-image:none!important}
+.bg-white{background:#fff}
+.bg-blush{background:#fff8fa}
+.page-hero{background:linear-gradient(180deg,#fff 0%,#fff6f8 100%)}
+.gradient-word{background:none!important;-webkit-background-clip:initial;background-clip:initial;color:var(--berry)!important;animation:none!important}
+.section-title{font-size:clamp(2rem,4.4vw,3.4rem)}
+.section-copy{font-size:.98rem}
+.item-card,.review,.cat-tile,.policy,.value,.order-card,.deliv-map,.paused-card,.quote,.promise{box-shadow:var(--shadow-soft)}
+.item-card:hover{transform:translateY(-4px)}
+.cat-banner .cat-plate{box-shadow:none}
+.hero{background:linear-gradient(180deg,#fff 0%,#fff6f8 100%)}
+.hero-blob{opacity:.55}
+/* gentle motion stays */
+.hero-cake{animation:float 6s ease-in-out infinite!important}
+.hero-float{animation:bob 8s ease-in-out infinite!important}
+.hero-float.f2{animation-delay:-2s!important}.hero-float.f3{animation-delay:-4s!important}.hero-float.f4{animation-delay:-6s!important}
+@media (prefers-reduced-motion:reduce){.hero-cake,.hero-float{animation:none!important}}
+/* ================= menu cards v4: shared rows so every line matches across a row ================= */
+.item-grid{grid-auto-rows:auto;row-gap:22px;align-items:stretch}
+.item-card{display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:0;gap:0}
+.item-card.mini{grid-row:span 4}
+.item-card .ic-body,.item-card .ic-top{display:contents}
+.ic-media,.ic-media.ic-ph{aspect-ratio:1.35}
+.item-card .ic-top h3{min-height:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px 22px 0;margin:0;font-size:1.5rem;line-height:1.1;text-wrap:balance}
+.ic-line{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:4px 10px;padding:6px 22px 0}
+.ic-line .ic-meta{display:inline;width:auto;min-height:0;font-size:.82rem;font-style:italic;color:var(--muted)}
+.ic-line .ic-meta::before{content:"\00b7";font-style:normal;margin-right:8px;color:var(--pink-300)}
+.item-card .ic-body p{padding:10px 22px 0;margin:0;text-align:center;font-size:.9rem;line-height:1.6}
+.item-card .ic-foot{align-self:end;margin:14px 22px 22px;width:auto}
+.item-card.mini .ic-top h3{padding-top:20px}
+@media (max-width:600px){
+  .item-grid{row-gap:12px}
+  .item-card .ic-top h3{padding:10px 10px 0;font-size:1.12rem}
+  .ic-line{padding:4px 10px 0}.ic-line .ic-meta{font-size:.7rem}
+  .item-card .ic-body p{padding:8px 10px 0;font-size:.78rem}
+  .item-card .ic-foot{margin:10px 10px 12px}
+}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}

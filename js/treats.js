@@ -330,22 +330,21 @@
   syncPills(); render();
 })();
 
-/* ---------- side list: jump to a section ---------- */
+/* ---------- jump list: always open (side list on wide screens, pinned strip on smaller ones) ---------- */
 (function(){
-  var nav = document.getElementById('jump'), btn = document.getElementById('jump-btn'); if (!nav) return;
-  var links = nav.querySelectorAll('[data-jump]'), hero = document.querySelector('.page-hero');
-  function setOpen(o){ nav.classList.toggle('open', o); btn.setAttribute('aria-expanded', String(o)); }
-  btn.addEventListener('click', function(){ setOpen(!nav.classList.contains('open')); });
-  links.forEach(function(a){ a.addEventListener('click', function(){ setOpen(false); }); });
-  document.addEventListener('click', function(e){ if (!nav.contains(e.target) && e.target !== btn) setOpen(false); });
+  var nav = document.getElementById('jump'); if (!nav) return;
+  var links = nav.querySelectorAll('[data-jump]'), hero = document.querySelector('.page-hero'), header = document.querySelector('.site-header');
+  var wide = window.matchMedia('(min-width:1100px)');
   function onScroll(){
-    var show = !hero || hero.getBoundingClientRect().bottom < 80;
-    nav.classList.toggle('show', show); btn.classList.toggle('show', show);
+    if (header) document.documentElement.style.setProperty('--hdr', Math.round(header.getBoundingClientRect().bottom) + 'px');
+    nav.classList.toggle('show', wide.matches || !hero || hero.getBoundingClientRect().bottom < 90);
     var cur = null, mid = window.innerHeight * 0.35;
-    links.forEach(function(a){ var s = document.getElementById(a.getAttribute('data-jump')); if (s && s.getBoundingClientRect().top <= mid) cur = a; });
+    links.forEach(function(a){ var sec = document.getElementById(a.getAttribute('data-jump')); if (sec && sec.getBoundingClientRect().top <= mid) cur = a; });
     links.forEach(function(a){ a.classList.toggle('on', a === cur); });
-    var bar = document.getElementById('order-bar'); btn.classList.toggle('lift', !!bar && !bar.hidden);
+    if (cur && !wide.matches && nav.classList.contains('show')) {
+      var r = cur.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+      if (r.left < nr.left + 10 || r.right > nr.right - 10) nav.scrollTo({ left: nav.scrollLeft + r.left - nr.left - 16, behavior: 'smooth' });
+    }
   }
-  window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onScroll); onScroll();
-  setInterval(onScroll, 1000);
+  window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onScroll); onScroll(); setTimeout(onScroll, 400);
 })();
