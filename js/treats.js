@@ -1,7 +1,7 @@
-/* De' Patisserie: Cakes & Treats menu, delivery map + tap-to-pick WhatsApp order form */
+/* De' Patisserie: Cakes & Treats menu, flavour chooser, delivery map + tap-to-pick WhatsApp order form */
 (function(){
   'use strict';
-  var ITEMS = window.TREATS || [];
+  var ITEMS = window.TREATS || [], OPTS = window.TREAT_OPTS || {};
   var form = document.getElementById('treat-form');
   if (!ITEMS.length || !form) return;
   var WA = '12462644609';
@@ -9,41 +9,71 @@
   var FEES = { 'St. Michael': null, 'Christ Church': null, 'St. Philip': null, 'St. George': null, 'St. James': null, 'St. Thomas': null,
                'St. John': null, 'St. Joseph': null, 'St. Peter': null, 'St. Andrew': null, 'St. Lucy': null };
   var byId = {}; ITEMS.forEach(function(it){ byId[it.id] = it; });
-  var qty = {}, choice = { flavour: '', topping: '', colours: [], parish: '' }, mode = 'Pickup', mapParish = '';
+  /* the order is a list of lines: one per item + flavour */
+  var lines = [], choice = { colours: [], parish: '' }, mode = 'Pickup', mapParish = '';
   function $(id){ return document.getElementById(id); }
   function money(v){ return '$' + (Math.round(v * 100) / 100).toFixed(2); }
-  function total(){ return ITEMS.reduce(function(s, it){ return s + (qty[it.id] || 0) * it.p; }, 0); }
-  function count(){ return ITEMS.reduce(function(s, it){ return s + (qty[it.id] || 0); }, 0); }
-  function has(kind){ return ITEMS.some(function(it){ return qty[it.id] > 0 && it.k === kind; }); }
-  function hasBase(){ return ITEMS.some(function(it){ return qty[it.id] > 0 && (it.k === 'cake' || it.k === 'cheese' || /Cookie Cake/.test(it.n)); }); }
-  function addonProblem(){ return ITEMS.some(function(it){ return qty[it.id] > 0 && it.c === 'extras'; }) && !hasBase(); }
-  function leadInfo(){ var best = null; ITEMS.forEach(function(it){ if (qty[it.id] > 0 && (!best || (it.l || 1) > (best.l || 1))) best = it; }); return best; }
+  function key(id, opt){ return id + '|' + (opt || ''); }
+  function findLine(k){ for (var i = 0; i < lines.length; i++) if (key(lines[i].id, lines[i].opt) === k) return lines[i]; return null; }
+  function itemQty(id){ return lines.reduce(function(s, l){ return s + (l.id === id ? l.q : 0); }, 0); }
+  function total(){ return lines.reduce(function(s, l){ return s + l.q * byId[l.id].p; }, 0); }
+  function count(){ return lines.reduce(function(s, l){ return s + l.q; }, 0); }
+  function inOrder(test){ return lines.some(function(l){ return test(byId[l.id]); }); }
+  function has(kind){ return inOrder(function(it){ return it.k === kind; }); }
+  function hasBase(){ return inOrder(function(it){ return it.k === 'cake' || it.k === 'cheese' || /Cookie Cake/.test(it.n); }); }
+  function addonProblem(){ return inOrder(function(it){ return it.c === 'extras'; }) && !hasBase(); }
+  function leadInfo(){ var best = null; lines.forEach(function(l){ var it = byId[l.id]; if (!best || (it.l || 1) > (best.l || 1)) best = it; }); return best; }
+  function lineName(l){ return byId[l.id].n + (l.opt ? ' (' + l.opt + ')' : ''); }
   function fee(p){ return typeof FEES[p] === 'number' ? FEES[p] : null; }
   function feeText(p){ var f = fee(p); return f === null ? 'Coming soon' : money(f); }
-  function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+  function bump(el){ if (!el) return; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
   function val(id){ var el = $(id); return el ? (el.value || '').trim() : ''; }
+  function toast(t){ if (window.showToast) window.showToast(t); }
 
-  try { var saved = JSON.parse(localStorage.getItem('dp-treats') || '{}'); Object.keys(saved).forEach(function(k){ if (byId[k] && saved[k] > 0) qty[k] = Math.min(300, Math.max(byId[k].m || 1, saved[k])); }); } catch (e) {}
-  function save(){ try { localStorage.setItem('dp-treats', JSON.stringify(qty)); } catch (e) {} }
+  try {
+    var saved = JSON.parse(localStorage.getItem('dp-treats2') || '[]');
+    saved.forEach(function(l){ var it = byId[l.id]; if (!it || !(l.q > 0)) return; if (it.o && OPTS[it.o].list.indexOf(l.opt) < 0) return;
+      lines.push({ id: l.id, opt: it.o ? l.opt : '', q: Math.min(300, Math.max(it.m || 1, l.q)) }); });
+  } catch (e) {}
+  function save(){ try { localStorage.setItem('dp-treats2', JSON.stringify(lines)); } catch (e) {} }
+
+  /* change a line by one step (respects minimums) */
+  function step(id, opt, dir){
+    var it = byId[id], mn = it.m || 1, st = it.s || 1, l = findLine(key(id, opt)), cur = l ? l.q : 0, nq;
+    if (dir > 0) nq = Math.min(300, cur ? cur + st : mn); else nq = cur - st < mn ? 0 : cur - st;
+    if (!l && nq) { l = { id: id, opt: opt || '', q: 0 }; lines.push(l); }
+    if (l) l.q = nq;
+    lines = lines.filter(function(x){ return x.q > 0; });
+    return { added: !cur && nq > 0, mn: mn, st: st, it: it };
+  }
 
   /* ---------- menu cards + order summary ---------- */
-  function render(changed){
-    document.querySelectorAll('.item-card[data-item]').forEach(function(row){
-      var id = row.getAttribute('data-item'), n = qty[id] || 0, q = row.querySelector('.qty');
-      if (q.textContent !== String(n)) { q.textContent = n; if (changed === id) bump(q); }
-      row.querySelector('[data-minus]').disabled = n <= 0;
-      row.classList.toggle('on', n > 0);
+  function render(changedKey){
+    document.querySelectorAll('.item-card[data-item]').forEach(function(card){
+      var id = card.getAttribute('data-item'), n = itemQty(id);
+      card.classList.toggle('on', n > 0);
+      if (card.classList.contains('has-opts')) {
+        var c = card.querySelector('.ic-count'), flav = lines.filter(function(l){ return l.id === id; }).length;
+        c.textContent = n ? n + ' added' : '';
+        card.querySelector('.ic-choose-t').textContent = n ? (flav > 1 ? flav + ' flavours added · add more' : 'Added · add another flavour') : ('Choose ' + (byId[id].o === 'top' ? 'topping' : 'flavour'));
+      } else {
+        var q = card.querySelector('.qty');
+        if (q.textContent !== String(n)) { q.textContent = n; if (changedKey === key(id, '')) bump(q); }
+        card.querySelector('[data-minus]').disabled = n <= 0;
+      }
     });
-    var list = $('of-items'), chosen = ITEMS.filter(function(it){ return qty[it.id] > 0; });
-    if (!chosen.length) list.innerHTML = '<p class="of-empty"><i class="ph-fill ph-cake"></i> Nothing added yet. Tap <b>Add to order</b> on the menu above.</p>';
+    var list = $('of-items');
+    if (!lines.length) list.innerHTML = '<p class="of-empty"><i class="ph-fill ph-cake"></i> Nothing added yet. Tap any treat on the menu above.</p>';
     else {
       list.innerHTML = '';
-      chosen.forEach(function(it){
-        var r = document.createElement('div'); r.className = 'of-row' + (changed === it.id ? ' hi' : ''); r.setAttribute('data-item', it.id);
-        r.innerHTML = '<span class="of-n"></span><div class="stepper of-step"><button type="button" data-minus aria-label="One less">&minus;</button><span class="qty">' + qty[it.id] + '</span><button type="button" data-plus aria-label="One more">+</button></div><span class="of-p"></span><button type="button" class="of-x" aria-label="Remove ' + it.n + '"><i class="ph-bold ph-x"></i></button>';
-        r.querySelector('.of-n').textContent = it.n;
-        r.querySelector('.of-p').textContent = money(qty[it.id] * it.p);
-        r.querySelector('.of-x').addEventListener('click', function(){ r.classList.add('out'); setTimeout(function(){ delete qty[it.id]; save(); render(); }, 200); });
+      lines.forEach(function(l){
+        var it = byId[l.id], k = key(l.id, l.opt);
+        var r = document.createElement('div'); r.className = 'of-row' + (changedKey === k ? ' hi' : ''); r.setAttribute('data-line', k);
+        r.innerHTML = '<span class="of-n"><b></b><em></em></span><div class="stepper of-step"><button type="button" data-lminus aria-label="One less">&minus;</button><span class="qty">' + l.q + '</span><button type="button" data-lplus aria-label="One more">+</button></div><span class="of-p"></span><button type="button" class="of-x" aria-label="Remove"><i class="ph-bold ph-x"></i></button>';
+        r.querySelector('.of-n b').textContent = it.n;
+        r.querySelector('.of-n em').textContent = l.opt ? (it.o === 'top' ? 'Topping' : 'Flavour') + ': ' + l.opt : '';
+        r.querySelector('.of-p').textContent = money(l.q * it.p);
+        r.querySelector('.of-x').addEventListener('click', function(){ r.classList.add('out'); setTimeout(function(){ lines = lines.filter(function(x){ return x !== l; }); save(); render(); }, 200); });
         list.appendChild(r);
       });
     }
@@ -56,42 +86,118 @@
     $('of-send-total').textContent = c ? t : '';
     $('of-addon').hidden = !addonProblem();
     applyLead();
-    var cake = has('cake'), cheese = has('cheese');
-    $('of-design').hidden = !(cake || cheese || has('deco'));
-    $('of-flav-wrap').hidden = !cake;
-    $('of-top-wrap').hidden = !cheese;
+    $('of-design').hidden = !(has('cake') || has('cheese') || has('deco'));
   }
+  function pulseBar(){ var bar = $('order-bar'); bar.classList.remove('pulse'); void bar.offsetWidth; bar.classList.add('pulse'); }
 
+  /* plain items: + / − on the card */
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-plus],[data-minus]'); if (!b) return;
-    var row = b.closest('[data-item]'); if (!row) return;
-    var id = row.getAttribute('data-item'), was = count();
-    var it = byId[id], mn = it.m || 1, st = it.s || 1, cur = qty[id] || 0;
-    if (b.hasAttribute('data-plus')) qty[id] = Math.min(300, cur ? cur + st : mn);
-    else qty[id] = cur - st < mn ? 0 : cur - st;
-    if (!qty[id]) delete qty[id];
-    if (b.hasAttribute('data-plus') && !cur && mn > 1 && window.showToast) window.showToast('Added ' + mn + ' ' + it.n + '. The minimum is ' + mn + (st > 1 ? ', then add ' + st + ' at a time.' : '.'));
-    save(); render(id);
-    if (b.hasAttribute('data-plus')) { var bar = $('order-bar'); bar.classList.remove('pulse'); void bar.offsetWidth; bar.classList.add('pulse'); }
-    if (b.hasAttribute('data-plus') && window.showToast && was === 0 && !(mn > 1)) window.showToast('Added! Keep browsing, or tap "Review and send" when you are ready.');
+    var card = b.closest('.item-card[data-item]'); if (!card) return;
+    var id = card.getAttribute('data-item'), was = count(), dir = b.hasAttribute('data-plus') ? 1 : -1;
+    var r = step(id, '', dir); save(); render(key(id, ''));
+    if (dir > 0) {
+      pulseBar();
+      if (r.added && r.mn > 1) toast('Added ' + r.mn + ' ' + r.it.n + '. The minimum is ' + r.mn + (r.st > 1 ? ', then add ' + r.st + ' at a time.' : '.'));
+      else if (was === 0) toast('Added! Keep browsing, or tap "Review and send" when you are ready.');
+    }
+  });
+  /* order list: + / − per line */
+  $('of-items').addEventListener('click', function(e){
+    var b = e.target.closest('[data-lplus],[data-lminus]'); if (!b) return;
+    var k = b.closest('[data-line]').getAttribute('data-line'), p = k.split('|');
+    step(p[0], p[1], b.hasAttribute('data-lplus') ? 1 : -1); save(); render(k);
   });
 
-  /* ---------- tap-to-pick choices ---------- */
+  /* ---------- flavour chooser sheet ---------- */
+  var sheet = document.createElement('div');
+  sheet.className = 'opt-sheet'; sheet.hidden = true;
+  sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true'); sheet.setAttribute('aria-labelledby', 'os-title');
+  sheet.innerHTML =
+    '<div class="os-card">' +
+      '<button type="button" class="os-x" aria-label="Close"><i class="ph-bold ph-x"></i>&#8203;</button>' +
+      '<div class="os-head"><div class="os-img"><img alt=""></div><div class="os-name"><h3 id="os-title"></h3><span class="os-price"></span><span class="os-min"></span></div></div>' +
+      '<span class="of-label os-label"></span>' +
+      '<div class="pills os-pills" role="radiogroup"></div>' +
+      '<p class="os-in"></p>' +
+      '<div class="os-row"><span class="of-label">How many?</span><div class="stepper os-step"><button type="button" data-os="-1" aria-label="One less">&minus;</button><span class="qty os-q">1</span><button type="button" data-os="1" aria-label="One more">+</button></div></div>' +
+      '<button type="button" class="btn os-add" disabled></button>' +
+    '</div>';
+  document.body.appendChild(sheet);
+  var S = { id: null, opt: '', q: 1 }, lastFocus = null;
+  function sheetDraw(){
+    var it = byId[S.id], o = OPTS[it.o], word = it.o === 'top' ? 'topping' : 'flavour';
+    sheet.querySelectorAll('.os-pills .pill').forEach(function(b){ var on = b.getAttribute('data-val') === S.opt; b.classList.toggle('sel', on); b.setAttribute('aria-checked', on); });
+    sheet.querySelector('.os-q').textContent = S.q;
+    sheet.querySelector('[data-os="-1"]').disabled = S.q - (it.s || 1) < (it.m || 1);
+    var add = sheet.querySelector('.os-add');
+    add.disabled = !S.opt;
+    add.innerHTML = S.opt ? '<i class="ph-bold ph-plus"></i> Add ' + S.q + ' ' + S.opt + ' &middot; ' + money(S.q * it.p) : 'Pick a ' + word + ' first';
+    var have = lines.filter(function(l){ return l.id === S.id; });
+    sheet.querySelector('.os-in').innerHTML = have.length ? '<i class="ph-fill ph-check-circle"></i> Already in your order: ' + have.map(function(l){ return l.q + ' ' + l.opt; }).join(', ') : '';
+    void o;
+  }
+  function openSheet(id, fromEl){
+    var it = byId[id], o = OPTS[it.o]; if (!o) return;
+    S = { id: id, opt: '', q: it.m || 1 };
+    var card = document.querySelector('.item-card[data-item="' + id + '"]'), img = card && card.querySelector('.ic-media img');
+    var im = sheet.querySelector('.os-img img'); im.src = img ? img.getAttribute('src') : 'assets/img/logo.png';
+    sheet.querySelector('.os-img').classList.toggle('ph', !!(card && card.querySelector('.ic-ph')));
+    sheet.querySelector('#os-title').textContent = it.n;
+    sheet.querySelector('.os-price').textContent = money(it.p) + (it.m > 1 || /each/.test(card ? card.querySelector('.ic-price').textContent : '') ? ' each' : '');
+    sheet.querySelector('.os-min').textContent = it.m > 1 ? 'Minimum ' + it.m + (it.s > 1 ? ', then ' + it.s + ' at a time' : '') : '';
+    sheet.querySelector('.os-label').textContent = 'Pick a ' + (it.o === 'top' ? 'topping' : 'flavour');
+    sheet.querySelector('.os-pills').innerHTML = o.list.map(function(v){ return '<button type="button" class="pill" role="radio" aria-checked="false" data-val="' + v + '">' + v + '</button>'; }).join('');
+    sheetDraw();
+    lastFocus = fromEl || document.activeElement;
+    sheet.hidden = false; requestAnimationFrame(function(){ sheet.classList.add('in'); });
+    document.documentElement.classList.add('ig-lock');
+    setTimeout(function(){ var f = sheet.querySelector('.os-pills .pill'); if (f) f.focus({ preventScroll: true }); }, 60);
+  }
+  function closeSheet(){
+    sheet.classList.remove('in'); document.documentElement.classList.remove('ig-lock');
+    setTimeout(function(){ sheet.hidden = true; }, 250);
+    if (lastFocus) lastFocus.focus({ preventScroll: true });
+  }
+  sheet.addEventListener('click', function(e){
+    if (e.target === sheet || e.target.closest('.os-x')) return closeSheet();
+    var p = e.target.closest('.os-pills .pill'); if (p) { S.opt = p.getAttribute('data-val'); sheetDraw(); return; }
+    var s = e.target.closest('[data-os]');
+    if (s) { var it = byId[S.id], mn = it.m || 1, st = it.s || 1; S.q = +s.getAttribute('data-os') > 0 ? Math.min(300, S.q + st) : Math.max(mn, S.q - st); sheetDraw(); bump(sheet.querySelector('.os-q')); return; }
+    if (e.target.closest('.os-add') && S.opt) {
+      var was = count(), k = key(S.id, S.opt), l = findLine(k);
+      if (l) l.q = Math.min(300, l.q + S.q); else lines.push({ id: S.id, opt: S.opt, q: S.q });
+      save(); render(k); pulseBar(); closeSheet();
+      toast('Added ' + S.q + ' ' + byId[S.id].n + ' (' + S.opt + ').' + (was === 0 ? ' Tap "Review and send" when you are ready.' : ''));
+    }
+  });
+  document.addEventListener('keydown', function(e){ if (!sheet.hidden && e.key === 'Escape') closeSheet(); });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-choose]'); if (!b) return;
+    openSheet(b.closest('[data-item]').getAttribute('data-item'), b);
+  });
+  // tapping a photo on a flavour item opens the chooser too
+  document.querySelectorAll('.item-card.has-opts .ic-media').forEach(function(m){
+    m.style.cursor = 'pointer';
+    m.addEventListener('click', function(){ openSheet(m.closest('[data-item]').getAttribute('data-item')); });
+  });
+
+  /* ---------- tap-to-pick choices in the form ---------- */
   form.querySelectorAll('[data-choice]').forEach(function(group){
-    var key = group.getAttribute('data-choice'), single = group.hasAttribute('data-single');
+    var k = group.getAttribute('data-choice'), single = group.hasAttribute('data-single');
     group.addEventListener('click', function(e){
       var b = e.target.closest('.pill'); if (!b) return;
       var v = b.getAttribute('data-val');
-      if (single) choice[key] = choice[key] === v ? '' : v;
-      else { var a = choice[key], i = a.indexOf(v); if (i > -1) a.splice(i, 1); else a.push(v); }
+      if (single) choice[k] = choice[k] === v ? '' : v;
+      else { var a = choice[k], i = a.indexOf(v); if (i > -1) a.splice(i, 1); else a.push(v); }
       group.classList.remove('need');
-      if (key === 'parish') setMapParish(choice.parish);
+      if (k === 'parish') setMapParish(choice.parish);
       syncPills(); render(); hideErr();
     });
   });
   function syncPills(){
     form.querySelectorAll('[data-choice]').forEach(function(group){
-      var key = group.getAttribute('data-choice'), cur = choice[key];
+      var cur = choice[group.getAttribute('data-choice')];
       group.querySelectorAll('.pill').forEach(function(b){ var v = b.getAttribute('data-val'), on = Array.isArray(cur) ? cur.indexOf(v) > -1 : cur === v; b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on); });
     });
     var fl = $('of-fee');
@@ -132,7 +238,7 @@
   }
 
   /* ---------- notice time: earliest date depends on what's in the order ---------- */
-  var calEl = form.querySelector('[data-cal]'), lastLead = 1;
+  var calEl = form.querySelector('[data-cal]');
   function applyLead(){
     if (!calEl || !calEl.setMinDays) return;
     var it = leadInfo(), days = it ? (it.l || 1) : 1, hint = $('of-lead');
@@ -140,10 +246,9 @@
     if (days > 1) {
       var d = calEl.minDate();
       hint.hidden = false;
-      hint.innerHTML = '<i class="ph-fill ph-hourglass-medium"></i> ' + it.n + ' needs ' + (days === 7 ? '1 week\u2019s' : days + ' days\u2019') + ' notice, so the earliest date is <b>' + d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + '</b>.';
+      hint.innerHTML = '<i class="ph-fill ph-hourglass-medium"></i> ' + it.n + ' needs ' + (days === 7 ? '1 week’s' : days + ' days’') + ' notice, so the earliest date is <b>' + d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + '</b>.';
     } else hint.hidden = true;
-    if (cleared && window.showToast) window.showToast('Your date was too soon for ' + it.n + '. Please pick a new date.');
-    lastLead = days;
+    if (cleared) toast('Your date was too soon for ' + it.n + '. Please pick a new date.');
   }
 
   /* ---------- date + time summary ---------- */
@@ -175,7 +280,7 @@
     var L = [], f = mode === 'Delivery' ? fee(choice.parish) : null;
     L.push("Hello De' Patisserie, I would like to place an order.");
     L.push(''); L.push('MY ORDER');
-    ITEMS.forEach(function(it){ if (qty[it.id]) L.push(qty[it.id] + ' x ' + it.n + ' - ' + money(qty[it.id] * it.p) + ' BBD'); });
+    lines.forEach(function(l){ L.push(l.q + ' x ' + lineName(l) + ' - ' + money(l.q * byId[l.id].p) + ' BBD'); });
     if (mode === 'Delivery') {
       L.push('Items subtotal: ' + money(total()) + ' BBD');
       L.push('Delivery fee: ' + (f === null ? 'to be confirmed' : money(f) + ' BBD'));
@@ -187,8 +292,6 @@
     if (mode === 'Delivery') { L.push('Parish: ' + choice.parish); L.push('Area / landmark: ' + val('of-area')); }
     var design = [];
     if (!$('of-design').hidden) {
-      if (!$('of-flav-wrap').hidden && choice.flavour) design.push('Cake flavour: ' + choice.flavour);
-      if (!$('of-top-wrap').hidden && choice.topping) design.push('Cheesecake topping: ' + choice.topping);
       if (choice.colours.length) design.push('Colours: ' + choice.colours.join(', '));
       if (val('of-message')) design.push('Message on top: ' + val('of-message'));
     }
@@ -220,7 +323,7 @@
     var url = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(message());
     var w = window.open(url, '_blank', 'noopener');
     if (!w) location.href = url;
-    if (window.showToast) window.showToast('WhatsApp is opening with your order. Just press send.');
+    toast('WhatsApp is opening with your order. Just press send.');
   });
   form.addEventListener('input', hideErr);
 
