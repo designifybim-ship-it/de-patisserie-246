@@ -15,12 +15,15 @@
   function total(){ return ITEMS.reduce(function(s, it){ return s + (qty[it.id] || 0) * it.p; }, 0); }
   function count(){ return ITEMS.reduce(function(s, it){ return s + (qty[it.id] || 0); }, 0); }
   function has(kind){ return ITEMS.some(function(it){ return qty[it.id] > 0 && it.k === kind; }); }
+  function hasBase(){ return ITEMS.some(function(it){ return qty[it.id] > 0 && (it.k === 'cake' || it.k === 'cheese' || /Cookie Cake/.test(it.n)); }); }
+  function addonProblem(){ return ITEMS.some(function(it){ return qty[it.id] > 0 && it.c === 'extras'; }) && !hasBase(); }
+  function leadInfo(){ var best = null; ITEMS.forEach(function(it){ if (qty[it.id] > 0 && (!best || (it.l || 1) > (best.l || 1))) best = it; }); return best; }
   function fee(p){ return typeof FEES[p] === 'number' ? FEES[p] : null; }
   function feeText(p){ var f = fee(p); return f === null ? 'Coming soon' : money(f); }
   function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
   function val(id){ var el = $(id); return el ? (el.value || '').trim() : ''; }
 
-  try { var saved = JSON.parse(localStorage.getItem('dp-treats') || '{}'); Object.keys(saved).forEach(function(k){ if (byId[k] && saved[k] > 0) qty[k] = Math.min(99, saved[k]); }); } catch (e) {}
+  try { var saved = JSON.parse(localStorage.getItem('dp-treats') || '{}'); Object.keys(saved).forEach(function(k){ if (byId[k] && saved[k] > 0) qty[k] = Math.min(300, Math.max(byId[k].m || 1, saved[k])); }); } catch (e) {}
   function save(){ try { localStorage.setItem('dp-treats', JSON.stringify(qty)); } catch (e) {} }
 
   /* ---------- menu cards + order summary ---------- */
@@ -51,6 +54,8 @@
     $('ob-total').textContent = t + ' BBD';
     $('order-bar').hidden = c === 0;
     $('of-send-total').textContent = c ? t : '';
+    $('of-addon').hidden = !addonProblem();
+    applyLead();
     var cake = has('cake'), cheese = has('cheese');
     $('of-design').hidden = !(cake || cheese || has('deco'));
     $('of-flav-wrap').hidden = !cake;
@@ -61,11 +66,14 @@
     var b = e.target.closest('[data-plus],[data-minus]'); if (!b) return;
     var row = b.closest('[data-item]'); if (!row) return;
     var id = row.getAttribute('data-item'), was = count();
-    qty[id] = Math.max(0, Math.min(99, (qty[id] || 0) + (b.hasAttribute('data-plus') ? 1 : -1)));
+    var it = byId[id], mn = it.m || 1, st = it.s || 1, cur = qty[id] || 0;
+    if (b.hasAttribute('data-plus')) qty[id] = Math.min(300, cur ? cur + st : mn);
+    else qty[id] = cur - st < mn ? 0 : cur - st;
     if (!qty[id]) delete qty[id];
+    if (b.hasAttribute('data-plus') && !cur && mn > 1 && window.showToast) window.showToast('Added ' + mn + ' ' + it.n + '. The minimum is ' + mn + (st > 1 ? ', then add ' + st + ' at a time.' : '.'));
     save(); render(id);
     if (b.hasAttribute('data-plus')) { var bar = $('order-bar'); bar.classList.remove('pulse'); void bar.offsetWidth; bar.classList.add('pulse'); }
-    if (b.hasAttribute('data-plus') && window.showToast && was === 0) window.showToast('Added! Keep browsing, or tap "Review and send" when you are ready.');
+    if (b.hasAttribute('data-plus') && window.showToast && was === 0 && !(mn > 1)) window.showToast('Added! Keep browsing, or tap "Review and send" when you are ready.');
   });
 
   /* ---------- tap-to-pick choices ---------- */
@@ -123,13 +131,28 @@
     $('deliv-go').addEventListener('click', function(){ if (mapParish) choice.parish = mapParish; setMode('Delivery'); });
   }
 
+  /* ---------- notice time: earliest date depends on what's in the order ---------- */
+  var calEl = form.querySelector('[data-cal]'), lastLead = 1;
+  function applyLead(){
+    if (!calEl || !calEl.setMinDays) return;
+    var it = leadInfo(), days = it ? (it.l || 1) : 1, hint = $('of-lead');
+    var cleared = calEl.setMinDays(days);
+    if (days > 1) {
+      var d = calEl.minDate();
+      hint.hidden = false;
+      hint.innerHTML = '<i class="ph-fill ph-hourglass-medium"></i> ' + it.n + ' needs ' + (days === 7 ? '1 week\u2019s' : days + ' days\u2019') + ' notice, so the earliest date is <b>' + d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + '</b>.';
+    } else hint.hidden = true;
+    if (cleared && window.showToast) window.showToast('Your date was too soon for ' + it.n + '. Please pick a new date.');
+    lastLead = days;
+  }
+
   /* ---------- date + time summary ---------- */
   function prettyDate(v, noYear){ if (!v) return ''; var p = v.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]);
     var o = { weekday: 'long', day: 'numeric', month: 'long' }; if (!noYear) o.year = 'numeric'; return d.toLocaleDateString('en-GB', o); }
   function prettyTime(v){ return v && window.DPLabelTime ? window.DPLabelTime(v) : v; }
   function updateWhen(){
     var d = val('of-date'), t = val('of-time'), el = $('of-when');
-    if (!d && !t) return;
+    if (!d && !t) { el.innerHTML = '<i class="ph-fill ph-calendar-heart"></i> Pick a date and time'; el.classList.remove('ok'); return; }
     el.innerHTML = '<i class="ph-fill ph-calendar-heart"></i> ' + (d ? '<b>' + prettyDate(d, true) + '</b>' : 'Pick a date') + (t ? ' at <b>' + prettyTime(t) + '</b>' : ', now pick a time');
     el.classList.toggle('ok', !!(d && t)); bump(el);
   }
@@ -138,6 +161,7 @@
   /* ---------- validation + message ---------- */
   function problem(){
     if (!count()) return ['Please add at least one item from the menu.', 'ofb-items'];
+    if (addonProblem()) return ['Add-ons go with a cake, cheesecake or cupcakes. Please add one, or remove the add-on.', 'ofb-items'];
     if (mode === 'Delivery' && !choice.parish) return ['Please tap your delivery parish.', 'of-parishes'];
     if (mode === 'Delivery' && !val('of-area')) return ['Please add your area or a landmark so we can find you.', 'of-area'];
     if (!val('of-date')) return ['Please pick a date on the calendar.', '.cal'];

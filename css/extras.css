@@ -628,6 +628,15 @@ html.ig-lock{overflow:hidden}
 }
 @media (max-width:380px){.item-grid{grid-template-columns:1fr}}
 
+/* minimums, notice and add-on rules */
+.cat-notice{display:inline-flex;align-items:center;gap:6px;margin-left:8px;padding:5px 12px;border-radius:999px;background:var(--pink-100);color:var(--berry);font-weight:600;font-size:.78rem}
+.cat-notice i{color:var(--pink-500)}
+.ic-meta{display:flex;flex-wrap:wrap;gap:6px}
+.ic-meta span{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;background:#fff6e4;border:1px solid #f6dfae;color:#8a5a12;font-size:.74rem;font-weight:700}
+.of-lead{padding:10px 12px;border-radius:14px;background:#fff6e4;color:#7a4f10;border:1px solid #f6dfae}
+.of-lead i{color:#d4a437}
+.of-warn{display:flex;gap:8px;align-items:flex-start;padding:10px 14px;border-radius:14px;background:#fff0f2;color:#b3123f;font-weight:600;font-size:.86rem}
+@media (max-width:600px){.cat-notice{margin:6px 0 0}.ic-meta span{font-size:.68rem;padding:2px 8px}}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}

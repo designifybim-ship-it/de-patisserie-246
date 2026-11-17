@@ -47,6 +47,16 @@
     grid.addEventListener('touchend', function(e){ if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
       if (Math.abs(dx) > 50) { var b = el.querySelector('[data-dir="' + (dx < 0 ? 1 : -1) + '"]'); if (b && !b.disabled) b.click(); } }, { passive: true });
     el.setValue = function(v){ inp.value = v || ''; if (v) { var p = v.split('-'); view = new Date(+p[0], +p[1] - 1, 1); } draw(); };
+    // change how many days' notice is needed; returns true if the chosen date had to be cleared
+    el.setMinDays = function(n){
+      var m = new Date(today); m.setDate(m.getDate() + n);
+      if (+m === +min) return false;
+      min = m; var cleared = false;
+      if (inp.value && inp.value < iso(min)) { inp.value = ''; cleared = true; fire(inp); }
+      if (view < new Date(min.getFullYear(), min.getMonth(), 1) || !inp.value) view = new Date(min.getFullYear(), min.getMonth(), 1);
+      draw(); return cleared;
+    };
+    el.minDate = function(){ return new Date(min); };
     if (inp.value) el.setValue(inp.value); else draw();
   }
 
