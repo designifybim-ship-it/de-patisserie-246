@@ -5,6 +5,7 @@
   var tiles = document.querySelectorAll('[data-ig]');
   if (!tiles.length || !posts.length) return;
   var WA = '12462644609';
+  var IG = 'https://www.instagram.com/depatisserie246/';
   function src(i){ return 'assets/gallery/g' + String(i + 1).padStart(2, '0') + '.webp'; }
 
   var box = document.createElement('div');
@@ -19,17 +20,18 @@
     '<div class="ig-post">' +
       '<div class="ig-media"><img alt=""></div>' +
       '<div class="ig-side">' +
-        '<div class="ig-user"><span class="ig-mini"><img src="assets/img/logo.png" alt=""></span><b>depatisserie246</b><span class="ig-dot">&middot;</span><a href="https://www.instagram.com/depatisserie246/" target="_blank" rel="noopener">Follow</a></div>' +
+        '<div class="ig-user"><a class="ig-mini" href="' + IG + '" target="_blank" rel="noopener" aria-label="Open Instagram"><img src="assets/img/logo.png" alt=""></a><a class="ig-name" href="' + IG + '" target="_blank" rel="noopener">depatisserie246</a><span class="ig-dot">&middot;</span><a href="' + IG + '" target="_blank" rel="noopener">Follow</a></div>' +
         '<div class="ig-cap"><h3></h3><p></p></div>' +
         '<div class="ig-row"><button class="ig-like" type="button" aria-label="Like"><i class="ph-bold ph-heart"></i></button><span class="ig-count"></span></div>' +
-        '<a class="btn btn-primary ig-order" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> Ask about this on WhatsApp</a>' +
+        '<div class="ig-buttons"><a class="btn btn-primary ig-order" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> Ask about this on WhatsApp</a>' +
+        '<a class="btn ig-insta" target="_blank" rel="noopener"><i class="ph-fill ph-instagram-logo"></i> View on Instagram</a></div>' +
       '</div>' +
     '</div>' +
     '<button class="ig-nav ig-next" type="button" aria-label="Next photo"><i class="ph-bold ph-caret-right"></i></button>';
   document.body.appendChild(box);
 
   var img = box.querySelector('.ig-media img'), h = box.querySelector('.ig-cap h3'), p = box.querySelector('.ig-cap p');
-  var like = box.querySelector('.ig-like'), count = box.querySelector('.ig-count'), order = box.querySelector('.ig-order');
+  var like = box.querySelector('.ig-like'), count = box.querySelector('.ig-count'), order = box.querySelector('.ig-order'), insta = box.querySelector('.ig-insta');
   var cur = 0, lastFocus = null, liked = {};
 
   function show(i){
@@ -41,6 +43,7 @@
     like.classList.toggle('on', !!liked[cur]);
     like.innerHTML = liked[cur] ? '<i class="ph-fill ph-heart"></i>' : '<i class="ph-bold ph-heart"></i>';
     order.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent("Hello De' Patisserie, I saw the " + post.t.toLowerCase() + " in your gallery and would like to ask about ordering something similar.");
+    insta.href = post.ig || IG; // set post.ig to a specific Instagram post link to open that post
     var nx = new Image(); nx.src = src((cur + 1) % posts.length);
   }
   function open(i){
