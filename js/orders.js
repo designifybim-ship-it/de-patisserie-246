@@ -129,22 +129,33 @@
   function sha(s){ if (!window.crypto || !crypto.subtle) return Promise.resolve('plain:' + s); return crypto.subtle.digest('SHA-256', new TextEncoder().encode('dp-salt-' + s)).then(function(b){ return Array.prototype.map.call(new Uint8Array(b), function(x){ return x.toString(16).padStart(2, '0'); }).join(''); }); }
   function unlocked(){ try { return sessionStorage.getItem('dp-ob-open') === '1'; } catch (e) { return false; } }
   function openApp(){ try { sessionStorage.setItem('dp-ob-open', '1'); } catch (e) {} $('#lock').hidden = true; $('#app').hidden = false; go('home'); }
-  var setting = !db.settings.pinHash, firstPin = '';
-  if (setting) $('#lock-msg').textContent = 'Create a PIN (4 to 8 numbers)';
-  $('#lock-form').addEventListener('submit', function(e){
-    e.preventDefault(); var p = $('#pin').value.trim(); $('#pin').value = '';
-    function bad(msg){ $('#lock-msg').textContent = msg; var c = $('.lock-card'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
-    if (!/^\d{4,8}$/.test(p)) return bad('Use 4 to 8 numbers');
+  var setting = !db.settings.pinHash, firstPin = '', entry = '', busy = false;
+  function msg(m){ $('#lock-msg').textContent = m; }
+  function dots(){ $$('#pin-dots i').forEach(function(d, i){ d.classList.toggle('on', i < entry.length); }); }
+  function bad(m){ msg(m); entry = ''; dots(); var c = $('.lock-card'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
+  if (setting) msg('Create a 4-number PIN');
+  function press(k){
+    if (busy) return;
+    if (k === 'del') { entry = entry.slice(0, -1); dots(); return; }
+    if (entry.length >= 4) return;
+    entry += k; dots();
+    if (entry.length === 4) { busy = true; setTimeout(check, 180); }
+  }
+  function check(){
+    var p = entry;
     if (setting) {
-      if (!firstPin) { firstPin = p; $('#lock-msg').textContent = 'Type the same PIN again'; return; }
-      if (p !== firstPin) { firstPin = ''; return bad("PINs didn't match. Try again"); }
-      sha(p).then(function(h){ db.settings.pinHash = h; save(); setting = false; openApp(); toast('PIN set'); });
+      if (!firstPin) { firstPin = p; entry = ''; dots(); msg('Type the same PIN again'); busy = false; return; }
+      if (p !== firstPin) { firstPin = ''; busy = false; return bad("Those didn't match. Create your PIN again"); }
+      sha(p).then(function(h){ db.settings.pinHash = h; save(); setting = false; busy = false; openApp(); toast('PIN set'); });
       return;
     }
-    sha(p).then(function(h){ if (h === db.settings.pinHash) openApp(); else bad('Wrong PIN'); });
-  });
+    sha(p).then(function(h){ busy = false; if (h === db.settings.pinHash) { entry = ''; openApp(); } else bad('Wrong PIN, try again'); });
+  }
+  $('#keypad').addEventListener('click', function(e){ var b = e.target.closest('[data-k]'); if (b) press(b.getAttribute('data-k')); });
+  document.addEventListener('keydown', function(e){ if ($('#lock').hidden) return; if (/^\d$/.test(e.key)) press(e.key); else if (e.key === 'Backspace') press('del'); });
+  $('#lock-form').addEventListener('submit', function(e){ e.preventDefault(); });
   $('#lock-btn').addEventListener('click', function(){ try { sessionStorage.removeItem('dp-ob-open'); } catch (e) {} location.reload(); });
-  if (!setting && unlocked()) openApp(); else setTimeout(function(){ $('#pin').focus(); }, 200);
+  if (!setting && unlocked()) openApp();
 
   /* ---------- navigation ---------- */
   var current = null, filter = 'active';

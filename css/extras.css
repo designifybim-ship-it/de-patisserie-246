@@ -1098,6 +1098,8 @@ body:has(.basket:not([hidden])) .cookie-note{bottom:calc(104px + env(safe-area-i
   .ig-stats{justify-content:center}
   .ig-handle a{font-size:1.9rem}
 }
+.owner-link{color:inherit;opacity:.7;font-size:.82rem;text-decoration:underline;text-underline-offset:3px}
+.owner-link:hover{opacity:1}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}

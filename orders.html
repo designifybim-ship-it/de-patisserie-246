@@ -8,21 +8,21 @@
 <link rel="icon" type="image/png" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/orders.css?v=1">
+<link rel="stylesheet" href="css/orders.css?v=2">
 <meta name="theme-color" content="#e64870">
 </head>
 <body>
 
 <div class="lock" id="lock">
+  <div class="lock-awn" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="lock-card">
     <img src="assets/img/logo.png" alt="De' Patisserie" class="lock-logo">
-    <h1>Order book</h1>
+    <h1>Welcome back, Daneisha</h1>
     <p id="lock-msg">Enter your PIN</p>
-    <form id="lock-form" autocomplete="off">
-      <input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="&bull;&bull;&bull;&bull;" aria-label="PIN">
-      <button type="submit" class="b b-main">Open</button>
-    </form>
-    <p class="lock-small">Orders are saved only on this device.</p>
+    <div class="pin-dots" id="pin-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <form id="lock-form" autocomplete="off"><input id="pin" type="password" inputmode="numeric" maxlength="4" aria-label="PIN" autocomplete="off"></form>
+    <div class="keypad" id="keypad"><button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Delete">&#9003;</button></div>
+    <a class="lock-back" href="index.html">&larr; Back to the website</a>
   </div>
 </div>
 
@@ -55,6 +55,6 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="js/menu-data.js?v=1"></script>
-<script src="js/orders.js?v=1"></script>
+<script src="js/orders.js?v=2"></script>
 </body>
 </html>
