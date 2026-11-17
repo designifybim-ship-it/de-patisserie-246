@@ -55,7 +55,7 @@
       if (card.classList.contains('has-opts')) {
         var c = card.querySelector('.ic-count'), flav = lines.filter(function(l){ return l.id === id; }).length;
         c.textContent = n ? n + ' added' : '';
-        card.querySelector('.ic-choose-t').textContent = n ? (flav > 1 ? flav + ' flavours added · add more' : 'Added · add another flavour') : ('Choose ' + (byId[id].o === 'top' ? 'topping' : 'flavour'));
+        card.querySelector('.ic-choose-t').textContent = n ? 'Add another' : ('Choose ' + (byId[id].o === 'top' ? 'topping' : 'flavour'));
       } else {
         var q = card.querySelector('.qty');
         if (q.textContent !== String(n)) { q.textContent = n; if (changedKey === key(id, '')) bump(q); }
@@ -80,7 +80,7 @@
     var f = mode === 'Delivery' && choice.parish ? fee(choice.parish) : null;
     var t = money(total() + (f || 0)), c = count();
     var tot = $('of-total'); if (tot.textContent !== t) { tot.textContent = t; bump(tot); }
-    $('ob-count').textContent = c + (c === 1 ? ' item' : ' items');
+    $('ob-count').textContent = c + (c === 1 ? ' item' : ' items'); var obn = $('ob-n'); if (obn) obn.textContent = c;
     $('ob-total').textContent = t + ' BBD';
     $('order-bar').hidden = c === 0;
     $('of-send-total').textContent = c ? t : '';
@@ -88,7 +88,29 @@
     applyLead();
     $('of-design').hidden = !(has('cake') || has('cheese') || has('deco'));
   }
-  function pulseBar(){ var bar = $('order-bar'); bar.classList.remove('pulse'); void bar.offsetWidth; bar.classList.add('pulse'); }
+  function pulseBar(){}
+  var reduceMo = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function bumpBasket(){ var bk = $('order-bar'); if (!bk) return; bk.classList.remove('got'); void bk.offsetWidth; bk.classList.add('got'); }
+  /* the treat's photo flies into the pink basket */
+  function flyToBasket(mediaEl){
+    var bk = $('order-bar'); if (!bk || bk.hidden || reduceMo || !mediaEl) return bumpBasket();
+    var from = mediaEl.getBoundingClientRect(), to = bk.querySelector('.bk-ico').getBoundingClientRect();
+    if (!from.width) return bumpBasket();
+    var img = mediaEl.querySelector('img'), ph = mediaEl.classList.contains('ic-ph') || mediaEl.classList.contains('ph') || !img;
+    var s = Math.min(from.width, from.height, 110), el = document.createElement('div');
+    el.className = 'fly-item' + (ph ? ' blank' : '');
+    if (ph) el.innerHTML = '&#9825;'; else el.style.backgroundImage = 'url("' + img.getAttribute('src') + '")';
+    var x0 = from.left + from.width / 2 - s / 2, y0 = from.top + from.height / 2 - s / 2;
+    el.style.left = x0 + 'px'; el.style.top = y0 + 'px'; el.style.width = el.style.height = s + 'px';
+    document.body.appendChild(el);
+    var dx = to.left + to.width / 2 - (x0 + s / 2), dy = to.top + to.height * 0.35 - (y0 + s / 2), lift = Math.min(160, Math.abs(dy) * 0.35 + 60);
+    var a = el.animate([
+      { transform: 'translate(0,0) scale(1) rotate(0deg)', opacity: 1 },
+      { transform: 'translate(' + dx * 0.45 + 'px,' + (dy * 0.45 - lift) + 'px) scale(.75) rotate(-18deg)', opacity: 1, offset: 0.45 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.2) rotate(-36deg)', opacity: 0.4 }
+    ], { duration: 800, easing: 'cubic-bezier(.45,.05,.55,.95)' });
+    a.onfinish = function(){ el.remove(); bumpBasket(); };
+  }
 
   /* plain items: + / − on the card */
   document.addEventListener('click', function(e){
@@ -97,9 +119,9 @@
     var id = card.getAttribute('data-item'), was = count(), dir = b.hasAttribute('data-plus') ? 1 : -1;
     var r = step(id, '', dir); save(); render(key(id, ''));
     if (dir > 0) {
-      pulseBar();
+      flyToBasket(card.querySelector('.ic-media') || b);
       if (r.added && r.mn > 1) toast('Added ' + r.mn + ' ' + r.it.n + '. The minimum is ' + r.mn + (r.st > 1 ? ', then add ' + r.st + ' at a time.' : '.'));
-      else if (was === 0) toast('Added! Keep browsing, or tap "Review and send" when you are ready.');
+      else if (was === 0) toast('In the basket! Tap it when you are ready to send.');
     }
   });
   /* order list: + / − per line */
@@ -167,8 +189,8 @@
     if (e.target.closest('.os-add') && S.opt) {
       var was = count(), k = key(S.id, S.opt), l = findLine(k);
       if (l) l.q = Math.min(300, l.q + S.q); else lines.push({ id: S.id, opt: S.opt, q: S.q });
-      save(); render(k); pulseBar(); closeSheet();
-      toast('Added ' + S.q + ' ' + byId[S.id].n + ' (' + S.opt + ').' + (was === 0 ? ' Tap "Review and send" when you are ready.' : ''));
+      var osImg = sheet.querySelector('.os-img'); save(); render(k); flyToBasket(osImg); closeSheet();
+      toast('Added ' + S.q + ' ' + byId[S.id].n + ' (' + S.opt + ').' + (was === 0 ? ' Tap the basket when you are ready.' : ''));
     }
   });
   document.addEventListener('keydown', function(e){ if (!sheet.hidden && e.key === 'Escape') closeSheet(); });
