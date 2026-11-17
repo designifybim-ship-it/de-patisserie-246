@@ -410,3 +410,20 @@
   PARISHES.forEach(function(p){ var c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.setAttribute('data-parish', p); c.textContent = p; pw.appendChild(c); });
   renderBox(false); goTo(1, true);
 })();
+
+/* ---------- cookie notice (the funny kind) ---------- */
+(function(){
+  try { if (localStorage.getItem('dp-cookie-ok')) return; } catch (e) {}
+  var box = document.createElement('div');
+  box.className = 'cookie-note'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Cookie notice');
+  box.innerHTML =
+    '<img src="assets/menu/assortment-of-cookies.webp" alt="" class="cookie-pic">' +
+    '<div class="cookie-txt"><strong>Not those cookies.</strong>' +
+    '<p>This site only keeps a tiny note on your device so your order doesn\'t disappear if you leave. No tracking, no spying, just crumbs. The good cookies are on the menu, and they\'re chewy.</p>' +
+    '<div class="cookie-btns"><button type="button" class="cookie-ok">Sounds sweet</button><a class="cookie-menu" href="treats.html#cookies">Show me the real cookies</a></div></div>';
+  function close(){ try { localStorage.setItem('dp-cookie-ok', '1'); } catch (e) {} box.classList.remove('in'); setTimeout(function(){ box.remove(); }, 400); }
+  box.querySelector('.cookie-ok').addEventListener('click', close);
+  box.querySelector('.cookie-menu').addEventListener('click', close);
+  document.body.appendChild(box);
+  setTimeout(function(){ box.classList.add('in'); }, 1200);
+})();
