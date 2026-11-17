@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Orders | De' Patisserie</title>
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/orders.css?v=1">
+<meta name="theme-color" content="#e64870">
+</head>
+<body>
+
+<div class="lock" id="lock">
+  <div class="lock-card">
+    <img src="assets/img/logo.png" alt="De' Patisserie" class="lock-logo">
+    <h1>Order book</h1>
+    <p id="lock-msg">Enter your PIN</p>
+    <form id="lock-form" autocomplete="off">
+      <input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="&bull;&bull;&bull;&bull;" aria-label="PIN">
+      <button type="submit" class="b b-main">Open</button>
+    </form>
+    <p class="lock-small">Orders are saved only on this device.</p>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
+  <header class="top">
+    <img src="assets/img/logo.png" alt="" class="top-logo">
+    <div><strong>Order book</strong><small id="top-sub">De' Patisserie</small></div>
+    <button class="b b-ghost top-lock" id="lock-btn" type="button">Lock</button>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="home" class="on">Overview</button>
+    <button data-tab="orders">Orders</button>
+    <button data-tab="add">+ New order</button>
+    <button data-tab="costs">Recipes &amp; costs</button>
+    <button data-tab="shop">Shopping list</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+
+  <main class="wrap">
+    <section data-view="home"></section>
+    <section data-view="orders" hidden></section>
+    <section data-view="add" hidden></section>
+    <section data-view="detail" hidden></section>
+    <section data-view="costs" hidden></section>
+    <section data-view="shop" hidden></section>
+    <section data-view="settings" hidden></section>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="js/menu-data.js?v=1"></script>
+<script src="js/orders.js?v=1"></script>
+</body>
+</html>
