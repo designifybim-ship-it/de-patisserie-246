@@ -1037,6 +1037,17 @@ canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown
 @media (min-width:601px){.jump-btn.lift{bottom:calc(20px + env(safe-area-inset-bottom,0px))}}
 body:has(.basket:not([hidden])) .toast{bottom:calc(104px + env(safe-area-inset-bottom,0px))}
 body:has(.basket:not([hidden])) .cookie-note{bottom:calc(104px + env(safe-area-inset-bottom,0px))}
+/* colour choices: buttercream swatches instead of dots */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:10px}
+.pill.sw{display:grid;justify-items:center;gap:6px;padding:8px 6px 9px;border-radius:18px;border:1.5px solid var(--pink-100);background:#fff;box-shadow:none;color:var(--ink);font-size:.78rem;font-weight:600;transition:border-color .2s,transform .25s cubic-bezier(.3,1.6,.5,1),background .2s}
+.pill.sw:hover{border-color:var(--pink-300);transform:translateY(-2px)}
+.pill.sw .sw-c{position:relative;width:46px;height:34px;border-radius:50% 50% 40% 40% / 62% 62% 38% 38%;background:radial-gradient(ellipse at 34% 28%,rgba(255,255,255,.85) 0 14%,transparent 34%),linear-gradient(160deg,var(--c1) 0%,var(--c2) 100%);box-shadow:inset 0 -4px 6px rgba(0,0,0,.08),0 3px 6px rgba(91,16,32,.10)}
+.pill.sw .sw-c::after{content:"";position:absolute;left:8px;right:8px;bottom:-3px;height:6px;border-radius:0 0 8px 8px;background:var(--c2);opacity:.55;filter:blur(.3px)}
+.pill.sw .sw-c.metal{background:radial-gradient(ellipse at 30% 25%,rgba(255,255,255,.95) 0 12%,transparent 30%),linear-gradient(135deg,var(--c1) 0%,var(--c2) 45%,var(--c1) 60%,var(--c2) 100%)}
+.pill.sw.sel{background:#fff6f8;border-color:var(--pink-500);color:var(--berry);box-shadow:0 0 0 3px rgba(230,72,112,.12)}
+.pill.sw.sel .sw-c::before{content:"\2713";position:absolute;right:-7px;top:-7px;width:18px;height:18px;border-radius:50%;background:var(--pink-500);color:#fff;font-size:.62rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px #fff}
+.pill.sw i{display:none}
+@media (max-width:600px){.swatches{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.pill.sw .sw-c{width:40px;height:30px}}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}
