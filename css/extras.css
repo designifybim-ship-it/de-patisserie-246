@@ -957,7 +957,7 @@ canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown
 .menu-main .item-card .ic-foot .ic-add{height:36px;font-size:.82rem}
 .menu-main .item-card .ic-step{height:36px}
 .menu-main .item-card .ic-step button{width:28px;height:28px;font-size:.95rem}
-@media (max-width:760px){
+@media (max-width:900px){
   .menu-main .item-grid,.menu-main .mini-grid{grid-template-columns:1fr}
   .menu-main .item-card{grid-template-columns:72px minmax(0,1fr);column-gap:14px;padding:18px 0}
   .menu-main .item-card .ic-media{width:72px}
@@ -990,8 +990,8 @@ canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown
 .menu-main .item-card .ic-top h3{font-size:1.45rem}
 .menu-main .ic-line .ic-price{font-size:1.4rem;color:var(--pink-500)}
 .menu-main .item-card .ic-foot .ic-add{border-color:var(--pink-200)}
-@media (min-width:761px){.menu-main .item-grid .item-card:nth-last-child(-n+2),.menu-main .mini-grid .item-card:nth-last-child(-n+2){border-bottom:0}}
-@media (max-width:760px){
+@media (min-width:901px){.menu-main .item-grid .item-card:nth-last-child(-n+2),.menu-main .mini-grid .item-card:nth-last-child(-n+2){border-bottom:0}}
+@media (max-width:900px){
   .menu-main .item-grid,.menu-main .mini-grid{padding:6px 18px;border-radius:24px;outline-offset:-7px}
   .menu-main .item-card{grid-template-columns:84px minmax(0,1fr);column-gap:14px}
   .menu-main .item-card .ic-media,.menu-main .item-card .ic-media.ic-ph{width:84px}
