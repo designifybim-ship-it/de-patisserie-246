@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Order De' Patisserie Saturday Treats cinnamon rolls. Build a box of 2, 4 or 6 and send your order on WhatsApp.">
+<title>Saturday Treats | De' Patisserie</title>
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link rel="stylesheet" href="css/sweet.css?v=6">
+<link rel="stylesheet" href="css/extras.css?v=6">
+<script>document.documentElement.classList.add('anim');setTimeout(function(){if(!window.__sweet)document.documentElement.classList.remove('anim')},2500);</script>
+<script defer src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+<body>
+<header class="site-header">
+  <span class="awning-sheen" aria-hidden="true"></span>
+  <div class="wrap header-inner">
+    <a class="brand-link" href="index.html" aria-label="De' Patisserie home"><img class="brand-logo" src="assets/img/logo.png" alt="De' Patisserie logo"></a>
+    <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="saturday-treats.html" aria-current="page">Saturday Treats</a>
+      <a class="nav-link" href="about.html">About</a>
+      <a class="nav-link" href="gallery.html">Gallery</a>
+      <a class="nav-link" href="policies.html">Policies</a>
+      <a class="nav-cta" href="#order"><i class="i-roll"></i> Order</a>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><i class="ph-bold ph-list"></i></button>
+  </div>
+  <div class="scroll-bar" aria-hidden="true"><span id="scroll-bar"></span></div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <canvas class="sprinkles" aria-hidden="true"></canvas>
+    <div class="wrap page-hero-grid">
+      <div>
+        <div class="breadcrumb"><a href="index.html">Home</a><i class="ph-bold ph-caret-right"></i><span>Saturday Treats</span></div>
+        <h1>Pick your <span class="gradient-word">favourite.</span></h1>
+        <p class="lede">Choose a box of 2, 4 or 6 rolls, in one flavour or mixed. When you're done, your order opens straight in our WhatsApp chat, ready to send.</p>
+        <div class="hero-chips">
+          <span class="hero-chip"><i class="ph-fill ph-calendar-heart"></i> Next drop: <span data-drop-date>Saturday</span></span>
+          <span class="hero-chip"><i class="ph-fill ph-package"></i> Minimum 2 rolls</span>
+          <span class="hero-chip"><i class="ph-fill ph-whatsapp-logo"></i> Order on WhatsApp</span>
+        </div>
+        <div class="hero-actions"><a class="btn btn-primary" href="#order"><i class="ph-fill ph-shopping-bag-open"></i> Start my order</a><a class="btn btn-soft" href="#flavours"><i class="i-roll"></i> See flavours</a></div>
+      </div>
+      <div class="hero-rolls three" aria-hidden="true">
+        <img src="assets/img/classic-cinnamon-roll.png" alt="">
+        <img src="assets/img/apple-cinnamon-roll.png" alt="">
+        <img src="assets/img/biscoff-cinnamon-roll.png" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-stripes" id="flavours">
+    <div class="wrap">
+      <div class="head-center reveal">
+        <h2 class="section-title">The <span class="gradient-word">flavours.</span></h2>
+        <p class="section-copy">Prices are per roll. Box totals are shown for 2, 4 and 6 rolls, in BBD.</p>
+      </div>
+      <div class="flavours">
+        <article class="flavour reveal" style="--tint:#f6dcc0;--tint-soft:#fff3e6">
+          <div class="plate"><img src="assets/img/classic-cinnamon-roll.png" alt="Sweetheart Classic cinnamon roll" loading="lazy"></div>
+          <div class="f-body"><h3>Sweetheart Classic</h3><span class="per-roll"><b>$6</b> per roll</span><p>Soft, gooey cinnamon swirls finished with smooth cream cheese frosting for a sweet and comforting classic bite.</p>
+            <div class="prices"><div><span>2 rolls</span><strong>$12</strong></div><div><span>4 rolls</span><strong>$24</strong></div><div><span>6 rolls</span><strong>$36</strong></div></div></div>
+        </article>
+        <article class="flavour reveal" style="--tint:#f3d2a8;--tint-soft:#fff2df">
+          <div class="plate"><img src="assets/img/biscoff-cinnamon-roll.png" alt="Biscoff Dream cinnamon roll" loading="lazy"></div>
+          <div class="f-body"><h3>Biscoff Dream</h3><span class="per-roll"><b>$8.50</b> per roll</span><p>Cookie-butter flavour, caramelised sweetness and biscuit crumble for a warm, indulgent finish.</p>
+            <div class="prices"><div><span>2 rolls</span><strong>$17</strong></div><div><span>4 rolls</span><strong>$34</strong></div><div><span>6 rolls</span><strong>$51</strong></div></div></div>
+        </article>
+        <article class="flavour reveal" style="--tint:#f7dfb8;--tint-soft:#fff6e8">
+          <span class="chip-new">NEW</span>
+          <div class="plate"><img src="assets/img/apple-cinnamon-roll.png" alt="Apple Cinnamon roll" loading="lazy"></div>
+          <div class="f-body"><h3>Apple Cinnamon</h3><span class="per-roll"><b>$8.50</b> per roll</span><p>Cinnamon-spiced apple pieces and a caramel drizzle over smooth cream cheese frosting, like apple pie in a swirl.</p>
+            <div class="prices"><div><span>2 rolls</span><strong>$17</strong></div><div><span>4 rolls</span><strong>$34</strong></div><div><span>6 rolls</span><strong>$51</strong></div></div></div>
+        </article>
+      </div>
+      <div class="head-center reveal" style="margin-top:56px">
+        <h2 class="section-title">Can't choose? <span class="gradient-word">Mix it.</span></h2>
+        <p class="section-copy">Mix any flavours in a box of 2, 4 or 6. Each roll is priced on its own, so a box of 4 with 2 Classic and 2 Apple is $29.</p>
+        <span class="min-note" style="margin-top:18px"><i class="ph-fill ph-info"></i> Minimum order: 2 rolls. Up to 3 boxes per order.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-blush" id="order">
+    <div class="wrap">
+      <div class="head-center reveal" style="margin-bottom:24px">
+        <h2 class="section-title">Let's fill your <span class="gradient-word">box.</span></h2>
+        <p class="section-copy">Three quick steps. At the end, tap the green button and WhatsApp opens with your order already written out. Just press send.</p>
+      </div>
+
+      <div class="wizard" id="wizard">
+        <div class="progress-meta"><span id="step-label">Step 1 of 3</span><span class="progress-price" id="progress-price">$12 BBD total</span></div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <ol class="step-dots" style="grid-template-columns:repeat(3,1fr)">
+          <li class="now"><b>1</b><span>Your box</span></li>
+          <li><b>2</b><span>Pickup or delivery</span></li>
+          <li><b>3</b><span>Details and send</span></li>
+        </ol>
+
+        <!-- STEP 1 -->
+        <section class="step-panel active" aria-label="Choose your box">
+          <div class="step-head"><div><h2>Choose your box.</h2><p class="step-intro">Build one box at a time. You can add up to 3 boxes.</p></div><div class="step-number">1</div></div>
+          <div class="tile-row">
+            <button class="tile active" type="button" data-mode="single"><i class="i-roll"></i><span><strong>One flavour</strong><small>2, 4 or 6 of the same flavour</small></span></button>
+            <button class="tile" type="button" data-mode="mixed"><i class="ph-fill ph-package"></i><span><strong>Mixed box</strong><small>Mix any flavours in a box of 2, 4 or 6</small></span></button>
+          </div>
+
+          <div id="single-area">
+            <h3 class="builder-subtitle">Pick a flavour</h3>
+            <div class="flavour-picks">
+              <button class="flav-btn active" type="button" data-flavour="classic"><img src="assets/img/classic-cinnamon-roll.png" alt=""><strong>Classic</strong><small>$6 per roll</small></button>
+              <button class="flav-btn" type="button" data-flavour="biscoff"><img src="assets/img/biscoff-cinnamon-roll.png" alt=""><strong>Biscoff</strong><small>$8.50 per roll</small></button>
+              <button class="flav-btn" type="button" data-flavour="apple"><img src="assets/img/apple-cinnamon-roll.png" alt=""><strong>Apple</strong><small>$8.50 per roll</small></button>
+            </div>
+            <h3 class="builder-subtitle">How many?</h3>
+            <div class="size-picks">
+              <button class="size-btn active" type="button" data-size="2"><span>2 rolls</span><strong>$12</strong></button>
+              <button class="size-btn" type="button" data-size="4"><span>4 rolls</span><strong>$24</strong></button>
+              <button class="size-btn" type="button" data-size="6"><span>6 rolls</span><strong>$36</strong></button>
+            </div>
+          </div>
+
+          <div id="mixed-area" hidden>
+            <h3 class="builder-subtitle">Box size</h3>
+            <div class="size-tabs">
+              <button class="size-tab active" type="button" data-mixsize="2"><strong>2</strong><span>rolls</span></button>
+              <button class="size-tab" type="button" data-mixsize="4"><strong>4</strong><span>rolls</span></button>
+              <button class="size-tab" type="button" data-mixsize="6"><strong>6</strong><span>rolls</span></button>
+            </div>
+            <div class="six-head"><strong>Choose your rolls</strong><span class="count-pill" id="mix-count">2 of 2 chosen</span></div>
+            <div class="mix-rows">
+              <div class="mix-row" data-row="classic"><img src="assets/img/classic-cinnamon-roll.png" alt=""><div><strong>Sweetheart Classic</strong><small>$6 per roll</small></div><div class="stepper"><button type="button" data-minus="classic" aria-label="One less Classic"><i class="ph-bold ph-minus"></i></button><span class="qty">0</span><button type="button" data-plus="classic" aria-label="One more Classic"><i class="ph-bold ph-plus"></i></button></div></div>
+              <div class="mix-row" data-row="biscoff"><img src="assets/img/biscoff-cinnamon-roll.png" alt=""><div><strong>Biscoff Dream</strong><small>$8.50 per roll</small></div><div class="stepper"><button type="button" data-minus="biscoff" aria-label="One less Biscoff"><i class="ph-bold ph-minus"></i></button><span class="qty">0</span><button type="button" data-plus="biscoff" aria-label="One more Biscoff"><i class="ph-bold ph-plus"></i></button></div></div>
+              <div class="mix-row" data-row="apple"><img src="assets/img/apple-cinnamon-roll.png" alt=""><div><strong>Apple Cinnamon</strong><small>$8.50 per roll</small></div><div class="stepper"><button type="button" data-minus="apple" aria-label="One less Apple"><i class="ph-bold ph-minus"></i></button><span class="qty">0</span><button type="button" data-plus="apple" aria-label="One more Apple"><i class="ph-bold ph-plus"></i></button></div></div>
+            </div>
+          </div>
+
+          <div class="selection-card">
+            <div><span class="lbl" id="sel-label">Box 1 of 1</span><h3 id="sel-title">2 Sweetheart Classic</h3><p id="sel-detail">Box of 2, all Classic</p></div>
+            <div class="price" id="sel-price">$12</div>
+          </div>
+          <div class="roll-stage"><div class="box"><div class="slots two" id="roll-slots"></div></div></div>
+
+          <div class="box-manager">
+            <div class="box-manager-head"><div><strong id="box-count">1 of 3 boxes in your order</strong><span class="help">Want a different flavour or size too? Add another box.</span></div><button class="btn btn-outline" type="button" id="add-box"><i class="ph-fill ph-plus"></i> Add another box</button></div>
+            <div class="box-list" id="box-list"></div>
+          </div>
+          <div class="wizard-actions"><div class="right"><button class="btn btn-primary" type="button" data-next>Continue <i class="ph-bold ph-arrow-right"></i></button></div></div>
+        </section>
+
+        <!-- STEP 2 -->
+        <section class="step-panel" aria-label="Pickup or delivery">
+          <div class="step-head"><div><h2>Pickup or delivery?</h2><p class="step-intro">Choose how you'd like to get your treats.</p></div><div class="step-number">2</div></div>
+          <div class="tile-row">
+            <button class="tile active" type="button" data-fulfil="Pickup"><i class="ph-fill ph-storefront"></i><span><strong>Pickup</strong><small>Choose a preferred pickup time.</small></span></button>
+            <button class="tile" type="button" data-fulfil="Delivery"><i class="ph-fill ph-moped"></i><span><strong>Delivery</strong><small>Choose your parish and area. A delivery fee is added.</small></span></button>
+          </div>
+          <div id="pickup-fields">
+            <div class="form-grid"><div class="field full"><label for="pickup-time">Preferred pickup time</label><input id="pickup-time" type="time"><span class="help">We'll confirm the exact time on WhatsApp.</span></div></div>
+          </div>
+          <div id="delivery-fields" hidden>
+            <div class="callout"><strong>A delivery fee will be added to your order total.</strong><span>We'll confirm the fee once we know your location.</span></div>
+            <div class="field"><span class="label">Choose your parish</span><div class="chips" id="parish-chips"></div></div>
+            <div class="form-grid">
+              <div class="field"><label for="delivery-area">Area or landmark</label><input id="delivery-area" type="text" placeholder="e.g. Warrens, Oistins, Speightstown"></div>
+              <div class="field"><label for="delivery-time">Preferred delivery time</label><input id="delivery-time" type="time"></div>
+            </div>
+          </div>
+          <div class="wizard-actions"><button class="btn btn-outline" type="button" data-back><i class="ph-bold ph-arrow-left"></i> Back</button><div class="right"><button class="btn btn-primary" type="button" data-next>Continue <i class="ph-bold ph-arrow-right"></i></button></div></div>
+        </section>
+
+        <!-- STEP 3 -->
+        <section class="step-panel" aria-label="Your details and send">
+          <div class="step-head"><div><h2>Your details.</h2><p class="step-intro">So we know who the treats are for. Then send your order on WhatsApp.</p></div><div class="step-number">3</div></div>
+          <div class="form-grid">
+            <div class="field"><label for="cust-name">Name</label><input id="cust-name" type="text" autocomplete="name" placeholder="Your name"></div>
+            <div class="field"><label for="cust-whatsapp">WhatsApp number</label><input id="cust-whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="246 000 0000"></div>
+            <div class="field full"><label for="cust-email">Email <span class="opt">(optional)</span></label><input id="cust-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+            <div class="field full"><span class="label">How would you like to pay?</span><div class="chips"><button class="chip selected" type="button" data-pay="CIBC First Pay">CIBC First Pay</button><button class="chip" type="button" data-pay="Bank transfer">Bank transfer</button><button class="chip" type="button" data-pay="Cash">Cash</button></div><span class="help">No payment is taken on this page. Payment details are shared after your order is approved.</span></div>
+            <div class="field full"><span class="label">Allergies or dietary needs</span><div class="chips"><button class="chip selected" type="button" data-diet="No dietary needs">No dietary needs</button><button class="chip" type="button" data-diet="Dairy / lactose">Dairy / lactose</button><button class="chip" type="button" data-diet="Diabetes-related">Diabetes-related</button><button class="chip" type="button" data-diet="Nut concern">Nut concern</button><button class="chip" type="button" data-diet="Other (see notes)">Other</button></div></div>
+            <div class="field full"><label for="cust-notes">Anything else? <span class="opt">(optional)</span></label><textarea id="cust-notes" placeholder="Special requests, delivery directions, or questions."></textarea></div>
+          </div>
+
+          <div class="send-box">
+            <div class="send-sum">
+              <div><span>Your order</span><strong id="send-order">1 box, 2 rolls &middot; Pickup</strong></div>
+              <div style="text-align:right"><span id="send-total-label">Total</span><strong class="grand" id="send-total">$12 BBD</strong></div>
+            </div>
+            <div class="callout" id="send-delivery-note" hidden style="margin:0"><strong>A delivery fee will be added to this total.</strong><span>We'll confirm it once we've reviewed your location.</span></div>
+            <a class="btn btn-whatsapp" id="send-wa" href="https://wa.me/12462644609" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> Send my order on WhatsApp</a>
+            <p class="send-help">This opens our WhatsApp chat with your order typed out. Just press send, and we'll reply to confirm.</p>
+            <button class="copy-link" type="button" id="copy-msg"><i class="ph-bold ph-copy"></i> WhatsApp didn't open? Copy your order instead</button>
+          </div>
+          <div class="pending"><i class="ph-fill ph-seal-check"></i><span>Your order is pending until De' Patisserie confirms it on WhatsApp. A 50% deposit is required after approval.</span></div>
+          <div class="wizard-actions"><button class="btn btn-outline" type="button" data-back><i class="ph-bold ph-arrow-left"></i> Back</button></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" style="--above:#fff4f7">
+    <canvas class="hearts" aria-hidden="true"></canvas>
+    <img class="float-roll" src="assets/img/apple-cinnamon-roll.png" alt="" style="left:3%;top:20%" loading="lazy">
+    <img class="float-roll" src="assets/img/classic-cinnamon-roll.png" alt="" style="right:3%;bottom:14%;animation-delay:1.5s" loading="lazy">
+    <div class="wrap" style="position:relative">
+      <h2>Questions first?</h2>
+      <p>Send us a message on WhatsApp or have a look at our policies before you order.</p>
+      <div class="final-actions">
+        <a class="btn btn-white" href="https://wa.me/12462644609" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> Message us</a>
+        <a class="btn btn-white" href="policies.html"><i class="ph-fill ph-scroll"></i> Read our policies</a>
+      </div>
+      <p class="phone">WhatsApp +1 (246) 264-4609</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div><img class="footer-logo" src="assets/img/logo.png" alt="De' Patisserie" loading="lazy"><p>Saturday Treats is De' Patisserie's weekly cinnamon roll drop. Send your order on WhatsApp and we'll confirm it with you.</p></div>
+      <div><h3 class="footer-title">Explore</h3><div class="footer-links"><a href="index.html"><i class="ph-fill ph-house"></i> Home</a><a href="saturday-treats.html"><i class="i-roll"></i> Saturday Treats</a><a href="about.html"><i class="ph-fill ph-heart"></i> About</a><a href="gallery.html"><i class="ph-fill ph-images"></i> Gallery</a></div></div>
+      <div><h3 class="footer-title">Connect</h3><div class="footer-links"><a href="https://wa.me/12462644609" target="_blank" rel="noopener"><i class="ph-fill ph-whatsapp-logo"></i> +1 (246) 264-4609</a><a href="https://www.instagram.com/depatisserie246/" target="_blank" rel="noopener"><i class="ph-fill ph-instagram-logo"></i> @depatisserie246</a><a href="policies.html"><i class="ph-fill ph-scroll"></i> Policies</a></div></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; <span data-year>2026</span> De' Patisserie.</span><span>Made with love, one roll at a time &#9825;</span></div>
+  </div>
+</footer>
+<button class="to-top" id="to-top" type="button" aria-label="Back to top"><i class="i-roll"></i><small>Back to top</small></button>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="toast" role="status" aria-live="polite"></div>
+<script src="js/sweet.js?v=6"></script>
+</body>
+</html>
