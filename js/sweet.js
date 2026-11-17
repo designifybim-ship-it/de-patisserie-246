@@ -181,7 +181,7 @@
   };
   var KEYS = ['classic','biscoff','apple'];
   var SIZES = [2,4,6];
-  function money(v){ v = Math.round(v * 100) / 100; return '$' + (v % 1 === 0 ? String(v) : v.toFixed(2)); }
+  function money(v){ return '$' + (Math.round(v * 100) / 100).toFixed(2); }
   function slotsClass(n){ return 'slots' + (n === 4 ? ' four' : n === 2 ? ' two' : ''); }
   function slotsHtml(list, size, animate, removable){
     var out = '';
