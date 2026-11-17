@@ -1062,6 +1062,42 @@ body:has(.basket:not([hidden])) .cookie-note{bottom:calc(104px + env(safe-area-i
 .cat-card2:hover .cc-go{opacity:1;transform:none}
 @media (max-width:900px){.cat-grid2{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
 @media (max-width:520px){.cat-grid2{gap:12px}.cc-txt{padding:12px 10px 14px}.cc-txt strong{font-size:1.2rem;min-height:2.1em;display:flex;align-items:center;justify-content:center}.cc-txt small{min-height:3em}.cc-txt small{font-size:.76rem}.cat-card2{border-radius:20px}.cc-go{display:none}}
+/* gallery: prettier instagram profile */
+.ig-page{background:linear-gradient(180deg,#fff 0%,#fff6f8 100%)}
+.ig-wrap{max-width:960px}
+.ig-profile{background:#fff;border:1px solid var(--pink-100);border-radius:30px;padding:clamp(20px,4vw,36px);box-shadow:0 14px 40px rgba(135,21,44,.06);align-items:center}
+.ig-avatar{box-shadow:0 10px 24px rgba(230,72,112,.2)}
+.ig-handle a{font-family:var(--display);font-weight:400;font-size:clamp(1.8rem,3.4vw,2.4rem);color:var(--pink-500);letter-spacing:.01em}
+.ig-btn{border-radius:999px!important;padding:9px 20px!important;font-weight:600;border:1.5px solid var(--pink-200)!important;background:#fff!important;color:var(--berry)!important}
+.ig-btn.ig-follow{background:var(--pink-500)!important;border-color:var(--pink-500)!important;color:#fff!important}
+.ig-stats li{color:var(--muted)}.ig-stats b{color:var(--berry)}
+.ig-bio strong{display:block;color:var(--ink)}
+.ig-cat{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px}
+.ig-highlights{display:flex;justify-content:center;gap:clamp(14px,3vw,30px);margin:30px 0 22px;overflow-x:auto;scrollbar-width:none;padding:6px 4px}
+.ig-highlights::-webkit-scrollbar{display:none}
+.ig-hl{flex:none;display:grid;justify-items:center;gap:8px;border:0;background:none;padding:0;cursor:pointer;color:var(--ink);font:inherit}
+.hl-ring{width:78px;height:78px;border-radius:50%;padding:3px;background:var(--pink-100);transition:background .3s,transform .3s cubic-bezier(.3,1.6,.5,1)}
+.hl-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #fff;display:block}
+.ig-hl:hover .hl-ring{transform:scale(1.06)}
+.ig-hl.on .hl-ring{background:conic-gradient(from 210deg,#f8aec0,#e64870,#87152c,#f5849c,#ffd27a,#f8aec0)}
+.hl-t{font-size:.8rem;font-weight:600;white-space:nowrap}
+.ig-hl.on .hl-t{color:var(--pink-500)}
+.ig-tabs{border-top-color:var(--pink-100)}
+.ig-tabs span{border-top-color:var(--pink-500);color:var(--berry)}
+.ig-page .ig-grid{gap:10px;margin-top:6px}
+.ig-page .ig-tile{border-radius:18px;box-shadow:0 6px 16px rgba(135,21,44,.06)}
+.ig-tile .ig-hover{background:linear-gradient(180deg,transparent 45%,rgba(91,16,32,.72) 100%)!important;align-items:flex-end!important;justify-content:flex-start!important;padding:16px!important;font-family:var(--display);font-weight:400;font-size:1.25rem;text-align:left;line-height:1.1}
+.ig-tile.pop-in{animation:tilePop .5s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes tilePop{from{opacity:0;transform:scale(.92) translateY(10px)}}
+@media (max-width:600px){.ig-highlights{justify-content:flex-start;margin:22px -4px 16px}.hl-ring{width:64px;height:64px}.hl-t{font-size:.72rem}.ig-page .ig-grid{gap:6px}.ig-page .ig-tile{border-radius:12px}.ig-tile .ig-hover{font-size:1rem;padding:10px!important}}
+@media (max-width:600px){
+  .ig-profile{display:grid!important;grid-template-columns:1fr!important;justify-items:center;text-align:center;gap:14px!important;padding:24px 18px!important}
+  .ig-avatar{margin:0!important;width:110px}
+  .ig-top{display:grid!important;justify-items:center;gap:12px!important}
+  .ig-actions{justify-content:center}
+  .ig-stats{justify-content:center}
+  .ig-handle a{font-size:1.9rem}
+}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}

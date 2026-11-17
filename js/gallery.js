@@ -84,4 +84,18 @@
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1));
     else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) close();
   }, { passive: true });
+
+  // highlight circles filter the grid
+  var hls = document.querySelectorAll('.ig-hl');
+  hls.forEach(function(h){ h.addEventListener('click', function(){
+    var f = h.getAttribute('data-filter'), i = 0;
+    hls.forEach(function(x){ var on = x === h; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
+    var tt = document.getElementById('ig-tab-t'); if (tt) tt.textContent = f === 'all' ? 'Posts' : h.querySelector('.hl-t').textContent;
+    tiles.forEach(function(t){
+      var show = f === 'all' || t.getAttribute('data-cat') === f;
+      t.classList.remove('pop-in');
+      if (show) { t.hidden = false; t.style.animationDelay = (i++ * 40) + 'ms'; void t.offsetWidth; t.classList.add('pop-in'); }
+      else t.hidden = true;
+    });
+  }); });
 })();
