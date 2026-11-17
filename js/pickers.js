@@ -18,8 +18,8 @@
     var min = new Date(today); min.setDate(min.getDate() + (+el.getAttribute('data-min-days') || 0));
     var max = new Date(today); max.setMonth(max.getMonth() + 6);
     var view = new Date(min.getFullYear(), min.getMonth(), 1);
-    el.innerHTML = '<div class="cal-head"><button type="button" class="cal-nav" data-dir="-1" aria-label="Previous month"><i class="ph-bold ph-caret-left"></i></button>' +
-      '<strong class="cal-title" aria-live="polite"></strong><button type="button" class="cal-nav" data-dir="1" aria-label="Next month"><i class="ph-bold ph-caret-right"></i></button></div>' +
+    el.innerHTML = '<div class="cal-head"><button type="button" class="cal-nav" data-dir="-1" aria-label="Previous month">&#8249;</button>' +
+      '<strong class="cal-title" aria-live="polite"></strong><button type="button" class="cal-nav" data-dir="1" aria-label="Next month">&#8250;</button></div>' +
       '<div class="cal-week">' + DAYS.map(function(d){ return '<span>' + d.charAt(0) + '<em>' + d.slice(1) + '</em></span>'; }).join('') + '</div><div class="cal-grid" role="grid"></div>';
     var grid = el.querySelector('.cal-grid'), title = el.querySelector('.cal-title');
     function draw(dir){

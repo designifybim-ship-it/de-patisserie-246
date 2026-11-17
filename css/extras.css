@@ -795,6 +795,38 @@ html.ig-lock{overflow:hidden}
   .ic-step{height:38px}.ic-step button{width:30px;height:30px}
   .ic-ph span{font-size:.68rem}
 }
+/* ================= calm pass: no icons, no flashing effects, no pill tags (header untouched) ================= */
+main i[class*="ph-"],main .i-roll,.site-footer i,.opt-sheet i,.ig-modal .ig-buttons i,.toast i{display:none!important}
+canvas.sprinkles,canvas.hearts,#confetti,.floaty,.heart-f,.float-roll,.countdown-label .dot,.to-top,.hero-blob::after{display:none!important}
+.chip-new,.tag-label,.kicker{display:none!important}
+/* stop idle motion */
+.plate img,.plate::after,.hero-cake,.hero-float,.chip-new,.of-send,.hero-actions .btn-primary,.tag,.tick,.cat-tile,.squiggle path{animation:none!important}
+.squiggle path{stroke-dashoffset:0}
+.hero-float{transform:rotate(var(--r))}
+/* plain text instead of pills */
+.per-roll,.ic-price,.os-price,.count-pill,.min-note,.hero-chip,.cat-count{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;border-radius:0!important}
+.per-roll{font-size:.82rem;color:var(--muted);font-weight:600}
+.per-roll b,.ic-price{font-family:var(--display);font-weight:400;font-size:1.45rem;color:var(--berry)}
+.ic-price small{font-family:var(--body);font-size:.78rem;color:var(--muted);font-weight:600}
+.hero-chips{display:block;margin-top:14px;color:var(--muted);font-size:.92rem}
+.hero-chip{display:inline;font-weight:600;color:var(--berry)}
+.hero-chip+.hero-chip::before{content:"\00b7";margin:0 10px;color:var(--pink-300)}
+/* category links on the menu page: a quiet text row */
+.cat-chips{gap:6px 0}
+.cat-chip{background:none;border:0;box-shadow:none;padding:4px 0;border-radius:0;font-size:.95rem;color:var(--berry);text-decoration:none}
+.cat-chip img{display:none}
+.cat-chip:hover{transform:none;color:var(--pink-500);text-decoration:underline;text-underline-offset:4px}
+.cat-chip+.cat-chip::before{content:"\00b7";margin:0 14px;color:var(--pink-300);display:inline-block}
+/* steps: just the number */
+.step-icon{width:64px;height:64px;font-family:var(--display);font-size:2rem;color:var(--pink-500)}
+.step-icon .step-num{position:static;inset:auto;width:auto;height:auto;background:none;box-shadow:none;border:0;color:var(--pink-500);font-size:2rem;font-family:var(--display);font-weight:400}
+.step:hover .step-icon{transform:none}
+.value-icon{display:none!important}
+.faq summary .plus::before{content:"+";font-weight:700}
+.deliv-pick{border-style:solid}
+/* home hero: simple note under the buttons */
+.paused-line{margin-top:22px;font-size:.92rem;color:var(--muted);max-width:52ch}
+.hero-note{font-weight:600}
 /* toast: fully hidden until it has something to say */
 .toast{transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s linear .35s}
 .toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .35s cubic-bezier(.3,1.5,.5,1),visibility 0s}

@@ -69,7 +69,7 @@
       lines.forEach(function(l){
         var it = byId[l.id], k = key(l.id, l.opt);
         var r = document.createElement('div'); r.className = 'of-row' + (changedKey === k ? ' hi' : ''); r.setAttribute('data-line', k);
-        r.innerHTML = '<span class="of-n"><b></b><em></em></span><div class="stepper of-step"><button type="button" data-lminus aria-label="One less">&minus;</button><span class="qty">' + l.q + '</span><button type="button" data-lplus aria-label="One more">+</button></div><span class="of-p"></span><button type="button" class="of-x" aria-label="Remove"><i class="ph-bold ph-x"></i></button>';
+        r.innerHTML = '<span class="of-n"><b></b><em></em></span><div class="stepper of-step"><button type="button" data-lminus aria-label="One less">&minus;</button><span class="qty">' + l.q + '</span><button type="button" data-lplus aria-label="One more">+</button></div><span class="of-p"></span><button type="button" class="of-x" aria-label="Remove">&times;</button>';
         r.querySelector('.of-n b').textContent = it.n;
         r.querySelector('.of-n em').textContent = l.opt ? (it.o === 'top' ? 'Topping' : 'Flavour') + ': ' + l.opt : '';
         r.querySelector('.of-p').textContent = money(l.q * it.p);
@@ -115,7 +115,7 @@
   sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true'); sheet.setAttribute('aria-labelledby', 'os-title');
   sheet.innerHTML =
     '<div class="os-card">' +
-      '<button type="button" class="os-x" aria-label="Close"><i class="ph-bold ph-x"></i>&#8203;</button>' +
+      '<button type="button" class="os-x" aria-label="Close">&times;</button>' +
       '<div class="os-head"><div class="os-img"><img alt=""></div><div class="os-name"><h3 id="os-title"></h3><span class="os-price"></span><span class="os-min"></span></div></div>' +
       '<span class="of-label os-label"></span>' +
       '<div class="pills os-pills" role="radiogroup"></div>' +
